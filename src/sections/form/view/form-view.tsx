@@ -11,6 +11,14 @@ import { FormProvider, useForm, useWatch } from "react-hook-form";
 
 import { CustomButton } from "@/components/custom-button";
 import { defaultValues } from "@/lib/schema";
+import { useSubmitFormMutation } from "@/services/form/mutation";
+import type { TFormSubmitRequest } from "@/types/form/form-submit";
+import {
+  GENDER_OPTIONS,
+  PARTICIPANT_TYPE_OPTIONS,
+  TRANSPORT_MODE_OPTIONS,
+  ORIGIN_LOCATIONS,
+} from "@/lib/constants/form-options";
 import { FormLastStep } from "@/sections/form/form-last-step";
 import { FormSecondStepInnerUniversity } from "@/sections/form/form-second-step-inner-university";
 import { FormSecondStepOuterUniversity } from "@/sections/form/form-second-step-outer-university";
@@ -20,6 +28,7 @@ import { Box, Stack, Typography } from "@mui/material";
 
 function FormView() {
   const [step, setStep] = useState(1);
+  const { mutateAsync: submitForm } = useSubmitFormMutation();
 
   const methods = useForm<FormFirstStepValues>({
     resolver: zodResolver(formFirstStepSchema),
@@ -93,11 +102,83 @@ function FormView() {
     setStep((prev) => Math.max(1, prev - 1));
   };
 
-  const onSubmit = (data: FormFirstStepValues) => {
-    console.log("Form Submitted", data);
-    alert(
-      `Form successfully submitted for ${data.firstName} ${data.lastName}! Check console for payload.`,
-    );
+  const onSubmit = async (data: FormFirstStepValues) => {
+    const getOptionValue = (
+      options: { label: string; value: string }[],
+      label: string,
+    ) => {
+      return options.find((o) => o.label === label)?.value || label;
+    };
+
+    let typeMap = data.participantType;
+    if (typeMap === "นิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ") {
+      typeMap = "นิสิตปัจจุบันวิศวะจุฬาฯ";
+    }
+
+    const rawLocation =
+      data.province === "กรุงเทพมหานคร"
+        ? `เขต${data.district || ""}`
+        : `จังหวัด${data.province}`;
+
+    const payload: TFormSubmitRequest = {
+      first_name: data.firstName,
+      last_name: data.lastName,
+      gender: getOptionValue(GENDER_OPTIONS, data.gender),
+      phone_number: data.phone,
+      participant_type: getOptionValue(PARTICIPANT_TYPE_OPTIONS, typeMap),
+      attendance_dates: data.attendDates,
+      interested_activities: data.activities,
+      discovery_channel: data.knows,
+      is_from_bangkok: data.province === "กรุงเทพมหานคร",
+      transport_mode: getOptionValue(TRANSPORT_MODE_OPTIONS, data.travelMethod),
+      origin_location: getOptionValue(ORIGIN_LOCATIONS, rawLocation),
+      extra_attributes: {},
+    };
+
+    switch (data.participantType) {
+      case "นักเรียน/ผู้ที่สนใจศึกษาต่อ":
+        payload.extra_attributes = {
+          education_level: data.educationLevel || "",
+          school_name: data.school || "",
+          study_plan: data.studyProgram || "",
+          province: data.schoolProvince || "",
+          tcas_rank: data.tcasRank || "",
+          interested_major: data.engineeringProgram || "",
+          emergency_contact: data.emergencyPhone || "",
+        };
+        break;
+      case "นิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ":
+        payload.extra_attributes = {
+          intania_generation: data.chulaId || "",
+        };
+        break;
+      case "นิสิต/นักศึกษาจากมหาลัยอื่น":
+        payload.extra_attributes = {
+          year_level:
+            data.studyYear === "อื่นๆ (โปรดระบุ)"
+              ? data.otherYear || ""
+              : data.studyYear || "",
+          faculty: data.faculty || "",
+          university: data.university || "",
+        };
+        break;
+      case "ครู":
+        payload.extra_attributes = {
+          school_name: data.school || "",
+          province: data.schoolProvince || "",
+          subject_taught: data.teachingSubject || "",
+        };
+        break;
+    }
+
+    try {
+      console.log("Submitting API Payload:", payload);
+      await submitForm(payload);
+      alert("Form submitted successfully!");
+    } catch (e) {
+      console.error(e);
+      alert("Failed to create account. Please try again.");
+    }
   };
 
   const renderSecondStep = () => {

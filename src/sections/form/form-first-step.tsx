@@ -28,7 +28,7 @@ const activitiesOptions = [
   "Showcase & Sharing Session",
   "Innovation",
   "Club & CSR",
-  " Hall & Stage",
+  "Hall & Stage",
   "Competition",
   "กิจกรรมอื่นๆในงาน",
 ];
@@ -221,8 +221,8 @@ export function FormFirstStep() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={(field.value || []).includes("28 มีนาคม")}
-                      onChange={() => handleToggle("28 มีนาคม")}
+                      checked={(field.value || []).includes("2026-03-28")}
+                      onChange={() => handleToggle("2026-03-28")}
                     />
                   }
                   label="28 มีนาคม"
@@ -231,8 +231,8 @@ export function FormFirstStep() {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={(field.value || []).includes("29 มีนาคม")}
-                      onChange={() => handleToggle("29 มีนาคม")}
+                      checked={(field.value || []).includes("2026-03-29")}
+                      onChange={() => handleToggle("2026-03-29")}
                     />
                   }
                   label="29 มีนาคม"
