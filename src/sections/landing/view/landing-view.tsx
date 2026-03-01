@@ -1,5 +1,5 @@
-import { CustomButton } from "@/components/custom-button";
 import { Box, Stack, Typography } from "@mui/material";
+import { LandingLoginButton } from "../landing-login-button";
 
 function LandingView() {
   return (
@@ -64,7 +64,7 @@ function LandingView() {
             zIndex: 1,
           }}
         >
-          <CustomButton>เข้าสู่ระบบ</CustomButton>
+          <LandingLoginButton />
 
           <Box
             component="img"
