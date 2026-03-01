@@ -15,7 +15,6 @@ import {
   Stack,
   TextField,
   Typography,
-  Button,
 } from "@mui/material";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { FormFirstStepValues } from "@/lib/validations/form";
@@ -57,8 +56,8 @@ const travelOptions: string[] = [
   "รถไฟฟ้า",
 ];
 
-export function FormFirstStep({ onNext }: { onNext: () => void }) {
-  const { control, trigger, setValue } = useFormContext<FormFirstStepValues>();
+export function FormFirstStep() {
+  const { control, setValue } = useFormContext<FormFirstStepValues>();
   const province = useWatch({ control, name: "province" });
 
   useEffect(() => {
@@ -67,15 +66,8 @@ export function FormFirstStep({ onNext }: { onNext: () => void }) {
     }
   }, [province, setValue]);
 
-  const handleNext = async () => {
-    const isValid = await trigger();
-    if (isValid) {
-      onNext();
-    }
-  };
-
   return (
-    <Stack spacing={1} margin={2}>
+    <Stack spacing={1}>
       <Stack
         spacing={1.5}
         sx={{ padding: "14px 16px" }}
@@ -91,7 +83,7 @@ export function FormFirstStep({ onNext }: { onNext: () => void }) {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="ชื่อ"
               variant="outlined"
               fullWidth
@@ -106,7 +98,7 @@ export function FormFirstStep({ onNext }: { onNext: () => void }) {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="นามสกุล"
               variant="outlined"
               fullWidth
@@ -143,7 +135,7 @@ export function FormFirstStep({ onNext }: { onNext: () => void }) {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="เบอร์โทร (เช่น 0XXXXXXXXX)"
               variant="outlined"
               fullWidth
@@ -159,7 +151,7 @@ export function FormFirstStep({ onNext }: { onNext: () => void }) {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="อีเมล"
               variant="outlined"
               fullWidth
@@ -420,17 +412,6 @@ export function FormFirstStep({ onNext }: { onNext: () => void }) {
             />
           )}
         />
-      </Stack>
-
-      <Stack spacing={2} sx={{ mt: "auto", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={handleNext}
-        >
-          ถัดไป
-        </Button>
       </Stack>
     </Stack>
   );

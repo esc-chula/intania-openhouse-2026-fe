@@ -4,7 +4,6 @@ import {
   Stack,
   Typography,
   TextField,
-  Button,
   Autocomplete,
   Radio,
 } from "@mui/material";
@@ -12,29 +11,11 @@ import { Controller, useFormContext } from "react-hook-form";
 import { FormFirstStepValues } from "@/lib/validations/form";
 import { THAILAND_PROVINCES } from "@/lib/constants/form-options";
 
-export function FormSecondStepTeacher({
-  onNext,
-  onBack,
-}: {
-  onNext: () => void;
-  onBack: () => void;
-}) {
-  const { control, trigger } = useFormContext<FormFirstStepValues>();
-
-  const handleNext = async () => {
-    const isValid = await trigger([
-      "school",
-      "schoolProvince",
-      "teachingSubject",
-    ]); // Validate fields specific to this step
-    if (isValid) {
-      onNext();
-    }
-  };
+export function FormSecondStepTeacher() {
+  const { control } = useFormContext<FormFirstStepValues>();
 
   return (
     <Stack
-      margin={2}
       sx={{
         minHeight: "calc(100vh - 32px)",
       }}
@@ -54,7 +35,7 @@ export function FormSecondStepTeacher({
           render={({ field }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="โรงเรียน"
               variant="outlined"
               fullWidth
@@ -91,31 +72,13 @@ export function FormSecondStepTeacher({
           render={({ field }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="วิชาที่สอน"
               variant="outlined"
               fullWidth
             />
           )}
         />
-      </Stack>
-      <Stack spacing={2} sx={{ mt: "auto", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={handleNext}
-        >
-          ถัดไป
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={onBack}
-        >
-          ย้อนกลับ
-        </Button>
       </Stack>
     </Stack>
   );

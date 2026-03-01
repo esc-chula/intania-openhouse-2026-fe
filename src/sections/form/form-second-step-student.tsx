@@ -4,7 +4,6 @@ import {
   Stack,
   Typography,
   TextField,
-  Button,
   Autocomplete,
   Radio,
 } from "@mui/material";
@@ -33,33 +32,11 @@ const studyPrograms: string[] = [
   "อื่นๆ (โปรดระบุ)",
 ];
 
-export function FormSecondStepStudent({
-  onNext,
-  onBack,
-}: {
-  onNext: () => void;
-  onBack: () => void;
-}) {
-  const { control, trigger } = useFormContext<FormFirstStepValues>();
-
-  const handleNext = async () => {
-    const isValid = await trigger([
-      "educationLevel",
-      "school",
-      "schoolProvince",
-      "studyProgram",
-      "engineeringProgram",
-      "tcasRank",
-      "emergencyPhone",
-    ]);
-    if (isValid) {
-      onNext();
-    }
-  };
+export function FormSecondStepStudent() {
+  const { control } = useFormContext<FormFirstStepValues>();
 
   return (
     <Stack
-      margin={2}
       sx={{
         minHeight: "calc(100vh - 32px)",
       }}
@@ -103,7 +80,7 @@ export function FormSecondStepStudent({
           render={({ field }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="โรงเรียน"
               variant="outlined"
               fullWidth
@@ -189,7 +166,7 @@ export function FormSecondStepStudent({
           render={({ field }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="อันดับที่จะใส่ใน TCAS (1-10)"
               variant="outlined"
               fullWidth
@@ -203,31 +180,13 @@ export function FormSecondStepStudent({
           render={({ field }) => (
             <TextField
               {...field}
-              value={field.value ?? ""} 
+              value={field.value ?? ""}
               label="เบอร์ติดต่อฉุกเฉิน (เช่น 0XXXXXXXXX)"
               variant="outlined"
               fullWidth
             />
           )}
         />
-      </Stack>
-      <Stack spacing={2} sx={{ mt: "auto", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={handleNext}
-        >
-          ถัดไป
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={onBack}
-        >
-          ย้อนกลับ
-        </Button>
       </Stack>
     </Stack>
   );

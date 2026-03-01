@@ -4,7 +4,6 @@ import {
   Stack,
   Typography,
   TextField,
-  Button,
   Radio,
   Autocomplete,
 } from "@mui/material";
@@ -19,31 +18,12 @@ const studyYearOptions: string[] = [
   "อื่นๆ (โปรดระบุ)",
 ];
 
-export function FormSecondStepOuterUniversity({
-  onNext,
-  onBack,
-}: {
-  onNext: () => void;
-  onBack: () => void;
-}) {
-  const { control, trigger, watch } = useFormContext<FormFirstStepValues>();
+export function FormSecondStepOuterUniversity() {
+  const { control, watch } = useFormContext<FormFirstStepValues>();
   const studyYear = watch("studyYear");
-
-  const handleNext = async () => {
-    const isValid = await trigger([
-      "studyYear",
-      "otherYear",
-      "faculty",
-      "university",
-    ]); // Validate fields specific to this step
-    if (isValid) {
-      onNext();
-    }
-  };
 
   return (
     <Stack
-      margin={2}
       sx={{
         minHeight: "calc(100vh - 32px)",
       }}
@@ -123,24 +103,6 @@ export function FormSecondStepOuterUniversity({
             />
           )}
         />
-      </Stack>
-      <Stack spacing={2} sx={{ mt: "auto", alignItems: "center" }}>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={handleNext}
-        >
-          ถัดไป
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={onBack}
-        >
-          ย้อนกลับ
-        </Button>
       </Stack>
     </Stack>
   );

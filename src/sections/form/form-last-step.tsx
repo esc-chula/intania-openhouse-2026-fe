@@ -1,8 +1,6 @@
-import { Button, Stack, Typography, Divider, Box } from "@mui/material";
-import { useFormContext, useWatch } from "react-hook-form";
-import { FormFirstStepValues } from "@/lib/validations/form";
+import { Stack, Typography } from "@mui/material";
 
-export function FormLastStep({ onBack }: { onBack: () => void }) {
+export function FormLastStep() {
   //   const { control } = useFormContext<FormFirstStepValues>();
   //   const data = useWatch({ control }) as FormFirstStepValues;
 
@@ -37,7 +35,6 @@ export function FormLastStep({ onBack }: { onBack: () => void }) {
 
   return (
     <Stack
-      margin={2}
       sx={{
         minHeight: "calc(100vh - 32px)",
       }}
@@ -93,24 +90,6 @@ export function FormLastStep({ onBack }: { onBack: () => void }) {
                 {renderRow("คณะ", data.faculty)}
                 {renderRow("มหาวิทยาลัย", data.university)}
             </Stack> */}
-      </Stack>
-      <Stack spacing={2} sx={{ mt: "auto", alignItems: "center" }}>
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-        >
-          สร้างบัญชี
-        </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          sx={{ width: "100%", maxWidth: "300px", borderRadius: 8 }}
-          onClick={onBack}
-        >
-          ย้อนกลับ
-        </Button>
       </Stack>
     </Stack>
   );
