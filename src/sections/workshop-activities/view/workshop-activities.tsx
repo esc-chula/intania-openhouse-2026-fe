@@ -1,7 +1,7 @@
 "use client";
 import { Box, Stack, ToggleButton, ToggleButtonGroup, InputBase, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
 import { WorkshopActyCard, CardItem } from "@/components/workshop-acty-card";
 
@@ -13,6 +13,15 @@ export interface WorkshopAndActivitiesViewProps {
 
 export default function WorkshopAndActivitiesView({initialStageData, initialWorkshopData,}: WorkshopAndActivitiesViewProps) {
     const [mode, setMode] = useState<"stage" | "workshop">("stage");
+    const [searchText, setSearchText] = useState("");
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = 0;
+        }
+    }, [mode]);
+
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
         value: "stage" | "workshop"
@@ -21,6 +30,7 @@ export default function WorkshopAndActivitiesView({initialStageData, initialWork
     };
 
     const data: CardItem[] = mode === "stage" ? initialStageData : initialWorkshopData;
+    const filteredData = data.filter((item) => item.title.toLowerCase().includes(searchText.toLowerCase()));
     return (
         <Box
             sx={{
@@ -121,6 +131,8 @@ export default function WorkshopAndActivitiesView({initialStageData, initialWork
                 }}
                 >
                 <InputBase
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
                     placeholder={mode === "workshop" ? "ค้นหาเวิร์คช็อป" : "ค้นหาตารางเวลาเวที"}
                     sx={{
                         flex: 1,
@@ -137,6 +149,7 @@ export default function WorkshopAndActivitiesView({initialStageData, initialWork
             </Box>
             
             <Stack
+                ref={scrollRef}
                 spacing={2}
                 sx={{
                     flexGrow: 1, 
@@ -149,10 +162,38 @@ export default function WorkshopAndActivitiesView({initialStageData, initialWork
                     scrollbarWidth: "none",
                     "&::-webkit-scrollbar": { display: "none" },
                 }}
-            >
-                {data.map((item) => (
-                    <WorkshopActyCard key={item.id} item={item} mode={mode} />
-                ))}
+            >   
+                {filteredData.length === 0 ? (
+                    <Box
+                        sx={{
+                            padding: "30px",
+                        }}>
+                        <Typography
+                            sx={{
+                                textAlign: 'center',
+                                color: '#5C3722',
+                                fontSize: '18px',
+                                fontWeight: 600,
+                            }}
+                        >
+                            ไม่พบกิจกรรมที่ค้นหา
+                        </Typography>
+                        <Typography
+                            sx={{
+                                textAlign: 'center',
+                                color: '#637381',
+                                fontSize: '14px',
+                                fontWeight: 400,
+                            }}
+                        >
+                            ลองเปลี่ยนคำค้นหา<br />หรือค้นหากิจกรรมอื่นๆแทน
+                        </Typography>
+                    </Box>
+                ) : (
+                    filteredData.map((item) => (
+                        <WorkshopActyCard key={item.id} item={item} mode={mode} />
+                    ))
+                )}
             </Stack>
 
             <Stack
