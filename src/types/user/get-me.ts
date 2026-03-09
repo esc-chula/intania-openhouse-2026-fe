@@ -16,5 +16,6 @@ export type TGetMeResponse = {
   attendance_dates: string[];
   interested_activities: string[];
   discovery_channel: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extra_attributes: Record<string, any>;
 };
