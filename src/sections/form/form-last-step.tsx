@@ -55,41 +55,18 @@ export function FormLastStep() {
 
         {/* <Stack spacing={1} sx={{ mt: 2, p: 2, border: "1px solid", borderColor: "grey.300", borderRadius: 1, bgcolor: "white" }}>
                 <Typography variant="subtitle2" sx={{ mb: 1, color: "grey.700" }}>ข้อมูลเบื้องต้น</Typography>
-                {renderRow("ชื่อ", data.firstName)}
-                {renderRow("นามสกุล", data.lastName)}
+                {renderRow("ชื่อ", data.first_name)}
+                {renderRow("นามสกุล", data.last_name)}
                 {renderRow("เพศ", data.gender)}
-                {renderRow("เบอร์โทรศัพท์", data.phone)}
+                {renderRow("เบอร์โทรศัพท์", data.phone_number)}
                 {renderRow("อีเมล", data.email)}
-                {renderRow("ประเภทผู้เข้าร่วม", data.participantType)}
-                {renderRow("วันที่ต้องการเข้าร่วม", data.attendDates)}
-                {renderRow("กิจกรรมที่สนใจ", data.activities)}
-                {renderRow("ช่องทางที่รู้จัก", data.knows)}
+                {renderRow("ประเภทผู้เข้าร่วม", data.participant_type)}
+                {renderRow("วันที่ต้องการเข้าร่วม", data.attendance_dates)}
+                {renderRow("กิจกรรมที่สนใจ", data.interested_activities)}
+                {renderRow("ช่องทางที่รู้จัก", data.discovery_channel)}
 
                 <Divider sx={{ my: 1 }} />
                 <Typography variant="subtitle2" sx={{ mb: 1, color: "grey.700" }}>ข้อมูลเพิ่มเติม</Typography> */}
-
-        {/* Conditional fields */}
-        {/* {renderRow("ระดับชั้น", data.educationLevel)}
-                {renderRow("โรงเรียน", data.school)}
-                {renderRow("จังหวัด", data.province)}
-                {renderRow("แผนการเรียน", data.studyProgram)}
-                {renderRow("ภาควิชาที่สนใจ", data.engineeringProgram)}
-                {renderRow("อันดับ TCAS", data.tcasRank)}
-                {renderRow("เบอร์ติดต่อฉุกเฉิน", data.emergencyPhone)}
-
-                {renderRow("การเดินทาง", data.travelMethod)}
-                {renderRow("อำเภอ", data.district)}
-
-                {renderRow("จังหวัดของโรงเรียน", data.schoolProvince)}
-                {renderRow("วิชาที่สอน", data.teachingSubject)}
-
-                {renderRow("รหัสนิสิตจุฬาฯ", data.chulaId)}
-
-                {renderRow("ชั้นปี", data.studyYear)}
-                {renderRow("ชั้นปีอื่นๆ", data.otherYear)}
-                {renderRow("คณะ", data.faculty)}
-                {renderRow("มหาวิทยาลัย", data.university)}
-            </Stack> */}
       </Stack>
     </Stack>
   );

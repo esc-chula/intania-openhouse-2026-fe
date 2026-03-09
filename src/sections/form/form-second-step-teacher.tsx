@@ -8,8 +8,8 @@ import {
   Radio,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { FormFirstStepValues } from "@/lib/validations/form";
-import { THAILAND_PROVINCES } from "@/lib/constants/form-options";
+import { FormFirstStepValues } from "@/sections/form/validations/form";
+import { THAILAND_PROVINCES } from "@/sections/form/constants/form-options";
 
 export function FormSecondStepTeacher() {
   const { control } = useFormContext<FormFirstStepValues>();
@@ -30,7 +30,7 @@ export function FormSecondStepTeacher() {
           ข้อมูลครู
         </Typography>
         <Controller
-          name="school"
+          name="school_name"
           control={control}
           render={({ field }) => (
             <TextField
@@ -43,7 +43,7 @@ export function FormSecondStepTeacher() {
           )}
         />
         <Controller
-          name="schoolProvince"
+          name="school_province"
           control={control}
           render={({ field }) => (
             <Autocomplete
@@ -67,7 +67,7 @@ export function FormSecondStepTeacher() {
           )}
         />
         <Controller
-          name="teachingSubject"
+          name="subject_taught"
           control={control}
           render={({ field }) => (
             <TextField

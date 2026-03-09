@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { LandingLoginButton } from "../landing-login-button";
+import { LandingRegisterButton } from "../landing-register-button";
 
 function LandingView() {
   return (
@@ -82,7 +83,7 @@ function LandingView() {
               cursor: "pointer",
             }}
           >
-            สร้างบัญชี
+            <LandingRegisterButton />
           </Typography>
         </Stack>
 

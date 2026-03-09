@@ -2,7 +2,7 @@
 
 import { Stack, Typography, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { FormFirstStepValues } from "@/lib/validations/form";
+import { FormFirstStepValues } from "@/sections/form/validations/form";
 
 export function FormSecondStepInnerUniversity() {
   const { control } = useFormContext<FormFirstStepValues>();
@@ -23,7 +23,7 @@ export function FormSecondStepInnerUniversity() {
           ข้อมูลนิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ
         </Typography>
         <Controller
-          name="chulaId"
+          name="intania_generation"
           control={control}
           render={({ field }) => (
             <TextField

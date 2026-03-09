@@ -17,11 +17,11 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
-import { FormFirstStepValues } from "@/lib/validations/form";
+import { FormFirstStepValues } from "@/sections/form/validations/form";
 import {
   THAILAND_PROVINCES,
   BANGKOK_DISTRICTS,
-} from "@/lib/constants/form-options";
+} from "@/sections/form/constants/form-options";
 
 const activitiesOptions = [
   " Workshop (เฉพาะนักเรียน)",
@@ -78,7 +78,7 @@ export function FormFirstStep() {
           ข้อมูลส่วนตัว
         </Typography>
         <Controller
-          name="firstName"
+          name="first_name"
           control={control}
           render={({ field, fieldState }) => (
             <TextField
@@ -93,7 +93,7 @@ export function FormFirstStep() {
           )}
         />
         <Controller
-          name="lastName"
+          name="last_name"
           control={control}
           render={({ field, fieldState }) => (
             <TextField
@@ -130,7 +130,7 @@ export function FormFirstStep() {
         />
 
         <Controller
-          name="phone"
+          name="phone_number"
           control={control}
           render={({ field, fieldState }) => (
             <TextField
@@ -173,7 +173,7 @@ export function FormFirstStep() {
         </Typography>
 
         <Controller
-          name="participantType"
+          name="participant_type"
           control={control}
           render={({ field, fieldState }) => (
             <Autocomplete
@@ -182,8 +182,9 @@ export function FormFirstStep() {
               onChange={(_, data) => field.onChange(data)}
               options={[
                 "นักเรียน/ผู้ที่สนใจศึกษาต่อ",
-                "นิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ",
-                "นิสิต/นักศึกษาจากมหาลัยอื่น",
+                "นิสิตปัจจุบันวิศวะจุฬาฯ",
+                "นิสิตเก่าวิศวะจุฬาฯ",
+                "นิสิตจากคณะ/มหาลัยอื่น",
                 "ครู",
                 "ผู้ปกครอง/บุคคลภายนอก",
               ]}
@@ -195,18 +196,15 @@ export function FormFirstStep() {
                   helperText={fieldState.error?.message}
                 />
               )}
-              slotProps={{
-                listbox: {
-                  sx: { maxHeight: 36 * 3, overflow: "auto" },
-                },
-              }}
             />
           )}
         />
 
-        <Typography sx={{ color: "primary.main" }}>วันที่เข้าร่วม</Typography>
+        <Typography variant="body2" sx={{ color: "primary.main" }}>
+          วันที่เข้าร่วม
+        </Typography>
         <Controller
-          name="attendDates"
+          name="attendance_dates"
           control={control}
           render={({ field, fieldState }) => {
             const handleToggle = (date: string) => {
@@ -217,7 +215,12 @@ export function FormFirstStep() {
               field.onChange(newDates);
             };
             return (
-              <Box>
+              <Box
+                sx={{
+                  marginTop: "0px !important",
+                  marginLeft: "10px !important",
+                }}
+              >
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -249,7 +252,7 @@ export function FormFirstStep() {
         />
 
         <Controller
-          name="activities"
+          name="interested_activities"
           control={control}
           render={({ field, fieldState }) => (
             <FormControl fullWidth error={!!fieldState.error}>
@@ -282,7 +285,7 @@ export function FormFirstStep() {
         />
 
         <Controller
-          name="knows"
+          name="discovery_channel"
           control={control}
           render={({ field, fieldState }) => (
             <FormControl fullWidth error={!!fieldState.error}>
@@ -323,7 +326,7 @@ export function FormFirstStep() {
         </Typography>
 
         <Controller
-          name="travelMethod"
+          name="transport_mode"
           control={control}
           render={({ field, fieldState }) => (
             <Autocomplete

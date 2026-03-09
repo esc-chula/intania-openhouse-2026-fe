@@ -18,7 +18,11 @@ export interface TFormSubmitRequest {
   is_from_bangkok: boolean;
   transport_mode: string;
   origin_location: string;
-  extra_attributes: Record<string, any>;
+  student_extra_attributes?: Record<string, unknown>;
+  teacher_extra_attributes?: Record<string, unknown>;
+  outside_student_extra_attributes?: Record<string, unknown>;
+  intania_extra_attributes?: Record<string, unknown>;
+  alumni_extra_attributes?: Record<string, unknown>;
 }
 
 export interface TFormSubmitResponse {

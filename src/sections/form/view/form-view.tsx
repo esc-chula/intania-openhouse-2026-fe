@@ -3,89 +3,97 @@
 import {
   formFirstStepSchema,
   FormFirstStepValues,
-} from "@/lib/validations/form";
+} from "@/sections/form/validations/form";
 import { FormFirstStep } from "@/sections/form/form-first-step";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 
 import { CustomButton } from "@/components/custom-button";
-import { defaultValues } from "@/lib/schema";
+import { defaultValues } from "@/sections/form/validations/schema";
 import { useSubmitFormMutation } from "@/services/form/mutation";
-import type { TFormSubmitRequest } from "@/types/form/form-submit";
-import {
-  GENDER_OPTIONS,
-  PARTICIPANT_TYPE_OPTIONS,
-  TRANSPORT_MODE_OPTIONS,
-  ORIGIN_LOCATIONS,
-} from "@/lib/constants/form-options";
+import { formatSubmitPayload } from "@/sections/form/utils/format-payload";
 import { FormLastStep } from "@/sections/form/form-last-step";
 import { FormSecondStepInnerUniversity } from "@/sections/form/form-second-step-inner-university";
 import { FormSecondStepOuterUniversity } from "@/sections/form/form-second-step-outer-university";
 import { FormSecondStepStudent } from "@/sections/form/form-second-step-student";
 import { FormSecondStepTeacher } from "@/sections/form/form-second-step-teacher";
 import { Box, Stack, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-provider";
 
 function FormView() {
   const [step, setStep] = useState(1);
+  const router = useRouter();
+  const { refreshRegistration } = useAuth();
   const { mutateAsync: submitForm } = useSubmitFormMutation();
 
   const methods = useForm<FormFirstStepValues>({
     resolver: zodResolver(formFirstStepSchema),
     defaultValues,
+    mode: "onChange",
   });
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [step]);
 
   const participantType = useWatch({
     control: methods.control,
-    name: "participantType",
+    name: "participant_type",
   });
 
   const handleNextStep = async () => {
     let isValid = false;
     if (step === 1) {
       isValid = await methods.trigger([
-        "firstName",
-        "lastName",
+        "first_name",
+        "last_name",
         "gender",
-        "phone",
+        "phone_number",
         "email",
-        "participantType",
-        "attendDates",
-        "activities",
-        "knows",
+        "participant_type",
+        "attendance_dates",
+        "interested_activities",
+        "discovery_channel",
         "province",
         "district",
-        "travelMethod",
+        "transport_mode",
       ]);
     } else if (step === 2) {
       switch (participantType) {
         case "นักเรียน/ผู้ที่สนใจศึกษาต่อ":
           isValid = await methods.trigger([
-            "educationLevel",
-            "school",
-            "schoolProvince",
-            "studyProgram",
-            "engineeringProgram",
-            "tcasRank",
-            "emergencyPhone",
+            "education_level",
+            "school_name",
+            "school_province",
+            "study_plan",
+            "interested_major",
+            "tcas_rank",
+            "emergency_contact",
           ]);
           break;
-        case "นิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ":
-          isValid = await methods.trigger(["chulaId"]);
+        case "นิสิตปัจจุบันวิศวะจุฬาฯ":
+        case "นิสิตเก่าวิศวะจุฬาฯ":
+          isValid = await methods.trigger(["intania_generation"]);
           break;
-        case "นิสิต/นักศึกษาจากมหาลัยอื่น":
+        case "นิสิตจากคณะ/มหาลัยอื่น":
           isValid = await methods.trigger([
-            "studyYear",
-            "otherYear",
+            "year_level",
+            "other_year",
             "faculty",
             "university",
           ]);
           break;
         case "ครู":
           isValid = await methods.trigger([
-            "school",
-            "schoolProvince",
-            "teachingSubject",
+            "school_name",
+            "school_province",
+            "subject_taught",
           ]);
           break;
         default:
@@ -103,81 +111,15 @@ function FormView() {
   };
 
   const onSubmit = async (data: FormFirstStepValues) => {
-    const getOptionValue = (
-      options: { label: string; value: string }[],
-      label: string,
-    ) => {
-      return options.find((o) => o.label === label)?.value || label;
-    };
-
-    let typeMap = data.participantType;
-    if (typeMap === "นิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ") {
-      typeMap = "นิสิตปัจจุบันวิศวะจุฬาฯ";
-    }
-
-    const rawLocation =
-      data.province === "กรุงเทพมหานคร"
-        ? `เขต${data.district || ""}`
-        : `จังหวัด${data.province}`;
-
-    const payload: TFormSubmitRequest = {
-      first_name: data.firstName,
-      last_name: data.lastName,
-      gender: getOptionValue(GENDER_OPTIONS, data.gender),
-      phone_number: data.phone,
-      participant_type: getOptionValue(PARTICIPANT_TYPE_OPTIONS, typeMap),
-      attendance_dates: data.attendDates,
-      interested_activities: data.activities,
-      discovery_channel: data.knows,
-      is_from_bangkok: data.province === "กรุงเทพมหานคร",
-      transport_mode: getOptionValue(TRANSPORT_MODE_OPTIONS, data.travelMethod),
-      origin_location: getOptionValue(ORIGIN_LOCATIONS, rawLocation),
-      extra_attributes: {},
-    };
-
-    switch (data.participantType) {
-      case "นักเรียน/ผู้ที่สนใจศึกษาต่อ":
-        payload.extra_attributes = {
-          education_level: data.educationLevel || "",
-          school_name: data.school || "",
-          study_plan: data.studyProgram || "",
-          province: data.schoolProvince || "",
-          tcas_rank: data.tcasRank || "",
-          interested_major: data.engineeringProgram || "",
-          emergency_contact: data.emergencyPhone || "",
-        };
-        break;
-      case "นิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ":
-        payload.extra_attributes = {
-          intania_generation: data.chulaId || "",
-        };
-        break;
-      case "นิสิต/นักศึกษาจากมหาลัยอื่น":
-        payload.extra_attributes = {
-          year_level:
-            data.studyYear === "อื่นๆ (โปรดระบุ)"
-              ? data.otherYear || ""
-              : data.studyYear || "",
-          faculty: data.faculty || "",
-          university: data.university || "",
-        };
-        break;
-      case "ครู":
-        payload.extra_attributes = {
-          school_name: data.school || "",
-          province: data.schoolProvince || "",
-          subject_taught: data.teachingSubject || "",
-        };
-        break;
-    }
+    const payload = formatSubmitPayload(data);
 
     try {
-      console.log("Submitting API Payload:", payload);
       await submitForm(payload);
-      alert("Form submitted successfully!");
+
+      await refreshRegistration();
+      router.push("/");
     } catch (e) {
       console.error(e);
-      alert("Failed to create account. Please try again.");
     }
   };
 
@@ -185,9 +127,10 @@ function FormView() {
     switch (participantType) {
       case "นักเรียน/ผู้ที่สนใจศึกษาต่อ":
         return <FormSecondStepStudent />;
-      case "นิสิตปัจจุบัน/นิสิตเก่าวิศวะจุฬาฯ":
+      case "นิสิตปัจจุบันวิศวะจุฬาฯ":
+      case "นิสิตเก่าวิศวะจุฬาฯ":
         return <FormSecondStepInnerUniversity />;
-      case "นิสิต/นักศึกษาจากมหาลัยอื่น":
+      case "นิสิตจากคณะ/มหาลัยอื่น":
         return <FormSecondStepOuterUniversity />;
       case "ครู":
         return <FormSecondStepTeacher />;
@@ -223,16 +166,34 @@ function FormView() {
         }}
       />
 
-      <Box sx={{ height: "100%", borderRadius: 1, overflow: "scroll" }}>
+      <Box
+        ref={scrollRef}
+        sx={{ height: "100%", borderRadius: 1, overflow: "scroll" }}
+      >
         <FormProvider {...methods}>
           <Box component="form" onSubmit={methods.handleSubmit(onSubmit)}>
             <Box sx={{ display: step === 1 ? "block" : "none" }}>
               <FormFirstStep />
             </Box>
-            <Box sx={{ display: step === 2 ? "block" : "none" }}>
+            <Box
+              sx={{
+                display:
+                  step === 2 && !(participantType === "ผู้ปกครอง/บุคคลภายนอก")
+                    ? "block"
+                    : "none",
+              }}
+            >
               {renderSecondStep()}
             </Box>
-            <Box sx={{ display: step === 3 ? "block" : "none" }}>
+            <Box
+              sx={{
+                display:
+                  step === 3 ||
+                  (step === 2 && participantType === "ผู้ปกครอง/บุคคลภายนอก")
+                    ? "block"
+                    : "none",
+              }}
+            >
               <FormLastStep />
             </Box>
           </Box>
@@ -247,7 +208,8 @@ function FormView() {
           width: "100%",
         }}
       >
-        {step < 3 ? (
+        {step < 3 &&
+        !(step === 2 && participantType === "ผู้ปกครอง/บุคคลภายนอก") ? (
           <CustomButton onClick={handleNextStep}>ถัดไป</CustomButton>
         ) : (
           <CustomButton onClick={methods.handleSubmit(onSubmit)}>

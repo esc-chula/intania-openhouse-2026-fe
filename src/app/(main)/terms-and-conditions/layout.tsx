@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
+import { AuthOnlyGuard } from "@/components/auth-guard";
 
 export default function FormLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <AuthOnlyGuard>{children}</AuthOnlyGuard>;
 }
