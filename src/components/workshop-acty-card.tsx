@@ -6,6 +6,8 @@ export interface StageItem {
   location: string;
   time: string;
   status?: string;
+  image?: string;
+  description: string,
 }
 
 export interface WorkshopItem extends StageItem {

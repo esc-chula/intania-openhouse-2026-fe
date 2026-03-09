@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useRef, useEffect } from "react";
 import React from "react";
 import { WorkshopActyCard, CardItem } from "@/components/workshop-acty-card";
+import WorkshopActyPopUp from "./workshop-activities-popup";
 
 
 export interface WorkshopAndActivitiesViewProps {
@@ -14,6 +15,8 @@ export interface WorkshopAndActivitiesViewProps {
 export default function WorkshopAndActivitiesView({initialStageData, initialWorkshopData,}: WorkshopAndActivitiesViewProps) {
     const [mode, setMode] = useState<"stage" | "workshop">("stage");
     const [searchText, setSearchText] = useState("");
+    const [popupOpen, setPopupOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<CardItem | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -27,6 +30,16 @@ export default function WorkshopAndActivitiesView({initialStageData, initialWork
         value: "stage" | "workshop"
     ) => {
         setMode(value);
+    };
+
+    const handleCardClick = (item: CardItem) => {
+        setSelectedItem(item);
+        setPopupOpen(true);
+    };
+
+    const handlePopupClose = () => {
+        setPopupOpen(false);
+        setSelectedItem(null);
     };
 
     const data: CardItem[] = mode === "stage" ? initialStageData : initialWorkshopData;
@@ -191,7 +204,13 @@ export default function WorkshopAndActivitiesView({initialStageData, initialWork
                     </Box>
                 ) : (
                     filteredData.map((item) => (
-                        <WorkshopActyCard key={item.id} item={item} mode={mode} />
+                        <Box
+                            key={item.id}
+                            onClick={() => handleCardClick(item)}
+                            sx={{ cursor: "pointer", "&:hover": { opacity: 0.8 } }}
+                        >
+                            <WorkshopActyCard item={item} mode={mode} />
+                        </Box>
                     ))
                 )}
             </Stack>
@@ -205,6 +224,15 @@ export default function WorkshopAndActivitiesView({initialStageData, initialWork
                 }}
             >
             </Stack>
+
+            {selectedItem && (
+                <WorkshopActyPopUp
+                    item={selectedItem}
+                    mode={mode}
+                    open={popupOpen}
+                    onClose={handlePopupClose}
+                />
+            )}
         </Box>
     );
 }
