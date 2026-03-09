@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -16,12 +17,15 @@ import {
 } from "react";
 import { getFirebaseAuth, googleProvider } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import { fetchGetMe } from "@/services/user/query/user-query";
 
 type AuthCtx = {
   user: User | null;
   loading: boolean;
-  signInGoogle: () => Promise<void>;
+  isRegistered: boolean;
+  signInGoogle: (returnUrl?: string) => Promise<void>;
   signOutAll: () => Promise<void>;
+  refreshRegistration: () => Promise<void>;
 };
 
 const Ctx = createContext<AuthCtx | null>(null);
@@ -30,33 +34,72 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(false);
   const auth = getFirebaseAuth();
 
+  const checkRegistration = useCallback(async (): Promise<boolean> => {
+    try {
+      await fetchGetMe();
+      setIsRegistered(true);
+      return true;
+    } catch {
+      setIsRegistered(false);
+      return false;
+    }
+  }, []);
+
+  const refreshRegistration = useCallback(async () => {
+    await checkRegistration();
+  }, [checkRegistration]);
+
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => {
+    const unsub = onAuthStateChanged(auth, async (u) => {
       setUser(u);
+      if (u) {
+        await checkRegistration();
+      } else {
+        setIsRegistered(false);
+      }
       setLoading(false);
     });
     return unsub;
-  }, [auth]);
+  }, [auth, checkRegistration]);
 
   const api = useMemo<AuthCtx>(
     () => ({
       user,
       loading,
-      signInGoogle: async () => {
+      isRegistered,
+      signInGoogle: async (returnUrl?: string) => {
         try {
           await signInWithPopup(auth, googleProvider);
-          router.push("/");
+
+          const registered = await checkRegistration();
+
+          if (registered) {
+            router.push(returnUrl || "/");
+          } else {
+            router.push("/terms-and-conditions");
+          }
         } catch (error) {
           console.error("Login failed", error);
         }
       },
       signOutAll: async () => {
         await signOut(auth);
+        setIsRegistered(false);
       },
+      refreshRegistration,
     }),
-    [auth, user, loading, router],
+    [
+      auth,
+      user,
+      loading,
+      isRegistered,
+      router,
+      checkRegistration,
+      refreshRegistration,
+    ],
   );
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;
