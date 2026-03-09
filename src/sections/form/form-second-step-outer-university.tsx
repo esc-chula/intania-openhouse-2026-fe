@@ -7,8 +7,8 @@ import {
   Radio,
   Autocomplete,
 } from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
-import { FormFirstStepValues } from "@/lib/validations/form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
+import { FormFirstStepValues } from "@/sections/form/validations/form";
 
 const studyYearOptions: string[] = [
   "ปี 1",
@@ -19,8 +19,8 @@ const studyYearOptions: string[] = [
 ];
 
 export function FormSecondStepOuterUniversity() {
-  const { control, watch } = useFormContext<FormFirstStepValues>();
-  const studyYear = watch("studyYear");
+  const { control } = useFormContext<FormFirstStepValues>();
+  const studyYear = useWatch({ control, name: "year_level" });
 
   return (
     <Stack
@@ -39,7 +39,7 @@ export function FormSecondStepOuterUniversity() {
         </Typography>
 
         <Controller
-          name="studyYear"
+          name="year_level"
           control={control}
           render={({ field }) => (
             <Autocomplete
@@ -63,7 +63,7 @@ export function FormSecondStepOuterUniversity() {
 
         {studyYear === "อื่นๆ (โปรดระบุ)" && (
           <Controller
-            name="otherYear"
+            name="other_year"
             control={control}
             render={({ field }) => (
               <TextField

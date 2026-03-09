@@ -7,12 +7,12 @@ import {
   Autocomplete,
   Radio,
 } from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
-import { FormFirstStepValues } from "@/lib/validations/form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
+import { FormFirstStepValues } from "@/sections/form/validations/form";
 import {
   THAILAND_PROVINCES,
   ENGINEERING_PROGRAMS,
-} from "@/lib/constants/form-options";
+} from "@/sections/form/constants/form-options";
 
 const educationLevels: string[] = [
   "มัธยมศึกษาปีที่ 6 หรือเทียบเท่า (dek69)",
@@ -35,6 +35,9 @@ const studyPrograms: string[] = [
 export function FormSecondStepStudent() {
   const { control } = useFormContext<FormFirstStepValues>();
 
+  const educationLevel = useWatch({ control, name: "education_level" });
+  const studyPlan = useWatch({ control, name: "study_plan" });
+
   return (
     <Stack
       sx={{
@@ -50,8 +53,9 @@ export function FormSecondStepStudent() {
         <Typography sx={{ color: "primary.main", fontWeight: "bold" }}>
           ข้อมูลนักเรียน/ผู้ที่สนใจศึกษาต่อ
         </Typography>
+
         <Controller
-          name="educationLevel"
+          name="education_level"
           control={control}
           render={({ field }) => (
             <Autocomplete
@@ -74,21 +78,39 @@ export function FormSecondStepStudent() {
             />
           )}
         />
+
+        {educationLevel === "อื่นๆ (โปรดระบุ)" && (
+          <Controller
+            name="other_education_level"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                value={field.value ?? ""}
+                label="ระดับชั้นอื่นๆ (โปรดระบุ)"
+                variant="outlined"
+                fullWidth
+              />
+            )}
+          />
+        )}
+
         <Controller
-          name="school"
+          name="school_name"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
-              label="โรงเรียน"
+              label='ชื่อโรงเรียน (ไม่ต้องกรอกคำว่า "โรงเรียน")'
               variant="outlined"
               fullWidth
             />
           )}
         />
+
         <Controller
-          name="schoolProvince"
+          name="school_province"
           control={control}
           render={({ field }) => (
             <Autocomplete
@@ -106,13 +128,14 @@ export function FormSecondStepStudent() {
                 );
               }}
               renderInput={(params) => (
-                <TextField {...params} label="จังหวัด" />
+                <TextField {...params} label="จังหวัดของโรงเรียน" />
               )}
             />
           )}
         />
+
         <Controller
-          name="studyProgram"
+          name="study_plan"
           control={control}
           render={({ field }) => (
             <Autocomplete
@@ -130,13 +153,30 @@ export function FormSecondStepStudent() {
                 );
               }}
               renderInput={(params) => (
-                <TextField {...params} label="แผนการเรียน" />
+                <TextField {...params} label="แผนการเรียน/สาย" />
               )}
             />
           )}
         />
+
+        {studyPlan === "อื่นๆ (โปรดระบุ)" && (
+          <Controller
+            name="other_study_plan"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                value={field.value ?? ""}
+                label="แผนการเรียนอื่นๆ (โปรดระบุ)"
+                variant="outlined"
+                fullWidth
+              />
+            )}
+          />
+        )}
+
         <Controller
-          name="engineeringProgram"
+          name="interested_major"
           control={control}
           render={({ field }) => (
             <Autocomplete
@@ -161,29 +201,37 @@ export function FormSecondStepStudent() {
         />
 
         <Controller
-          name="tcasRank"
+          name="tcas_rank"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label="อันดับที่จะใส่ใน TCAS (1-10)"
               variant="outlined"
               fullWidth
+              type="number"
+              slotProps={{
+                htmlInput: { min: 1, max: 10 },
+              }}
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
 
         <Controller
-          name="emergencyPhone"
+          name="emergency_contact"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label="เบอร์ติดต่อฉุกเฉิน (เช่น 0XXXXXXXXX)"
               variant="outlined"
               fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
