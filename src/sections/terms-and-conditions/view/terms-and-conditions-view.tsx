@@ -1,7 +1,37 @@
+"use client";
+
 import { CustomButton } from "@/components/custom-button";
+import { useAuth } from "@/contexts/auth-provider";
 import { Box, Stack, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function TermsAndConditionsView() {
+  const router = useRouter();
+  const { user, loading, isRegistered } = useAuth();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) {
+      router.replace("/");
+      return;
+    }
+    if (isRegistered) {
+      router.replace("/");
+      return;
+    }
+  }, [loading, user, isRegistered, router]);
+
+  const handleAccept = () => {
+    router.push("/form");
+  };
+
+  const handleBack = () => {
+    router.back();
+  };
+
+  if (loading || !user) return null;
+
   return (
     <Box
       sx={{
@@ -51,10 +81,11 @@ export default function TermsAndConditionsView() {
           width: "100%",
         }}
       >
-        <CustomButton>ยอมรับ</CustomButton>
+        <CustomButton onClick={handleAccept}>ยอมรับ</CustomButton>
 
         <Typography
           variant="subtitle1"
+          onClick={handleBack}
           sx={{
             color: "#5B3722",
             fontWeight: 700,
