@@ -1,4 +1,4 @@
-import CheckInView from "@/sections/check-in/view/check-in";
+import CheckInView from "@/sections/check-in/view/check-in-view";
 import React from "react";
 
 function CheckInPage() {

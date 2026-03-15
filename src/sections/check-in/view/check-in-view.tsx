@@ -1,9 +1,12 @@
 "use client";
 
 import { BackButton } from "@/components/back-button";
-import { Box, Typography } from "@mui/material";
+import { Box, ButtonBase, Typography } from "@mui/material";
 import { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
+import CheckIn from "../check-in";
+import { color } from "@/theme/core/colors";
+import { typography } from "@/theme/core";
 
 export default function CheckInView() {
   const [scannedResult, setScannedResult] = useState<string | null>(null);
@@ -61,33 +64,54 @@ export default function CheckInView() {
             Check In
           </Typography>
         </Box>
-        <Box
+        {scannedResult ? (
+          <CheckIn />
+        ) : (
+          <Box
+            sx={{
+              width: "100%",
+              borderRadius: "12px",
+              display: "flex",
+              overflow: "hidden",
+              flexGrow: 1,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Scanner
+              sound={false}
+              onScan={(result) => {
+                if (result && result.length > 0) {
+                  setScannedResult(result[0].rawValue);
+                  console.log(result[0].rawValue);
+                }
+              }}
+              onError={(error) => {
+                console.error(error);
+              }}
+              components={{
+                finder: true,
+              }}
+            />
+          </Box>
+        )}
+        <ButtonBase
           sx={{
-            width: "100%",
-            borderRadius: "12px",
-            display: "flex",
-            overflow: "hidden",
-            flexGrow: 1,
-            alignItems: "center",
-            justifyContent: "center",
+            paddingX: "22px",
+            paddingY: 1,
+            backgroundColor: color.PRIMARY_MAIN,
+            borderRadius: 1,
+            alignSelf: "center",
+            boxShadow:
+              "0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.20)",
+            color: color.TEXT_WHITE,
+            fontSize: 16,
+            fontWeight: typography.fontWeightBold,
+            lineHeight: "24px",
           }}
         >
-          <Scanner
-            sound={false}
-            onScan={(result) => {
-              if (result && result.length > 0) {
-                setScannedResult(result[0].rawValue);
-                console.log(result[0].rawValue);
-              }
-            }}
-            onError={(error) => {
-              console.error(error);
-            }}
-            components={{
-              finder: true,
-            }}
-          />
-        </Box>
+          กลับสู่เมนูหลัก
+        </ButtonBase>
       </Box>
     </Box>
   );
