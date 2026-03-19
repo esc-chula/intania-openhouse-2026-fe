@@ -7,6 +7,15 @@ import { useQuery } from "@tanstack/react-query";
 import { activityQueryKeys } from "@/services/activity/query/activity-query";
 import { useAuth } from "@/contexts/auth-provider";
 import dayjs from "dayjs";
+import buddhistEra from "dayjs/plugin/buddhistEra";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import "dayjs/locale/th";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(buddhistEra);
+dayjs.locale("th");
 
 export default function ActivityView() {
   const params = useParams<{ id: string }>();
@@ -146,43 +155,47 @@ export default function ActivityView() {
             />
           </Box>
         </Box>
-        <Box
+        <Stack
           sx={{
-            position: "relative",
-            width: "100%",
             display: "flex",
-            justifyContent: "center",
-            zIndex: 1,
+            backgroundColor: "#F8F3E8",
+            flexDirection: "column",
+            alignSelf: "center",
+            padding: 2,
+            gap: 1.5,
+            flexGrow: 1,
+            borderRadius: 1,
+            boxShadow:
+              "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
           }}
         >
-          <Stack
-            sx={{
-              display: "flex",
-              backgroundColor: "#F8F3E8",
-              flexDirection: "column",
-              alignSelf: "center",
-              padding: 2,
-              gap: 1.5,
-              borderRadius: 1,
-              boxShadow:
-                "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
-            }}
-          >
+          <Box sx={{display: "flex"}}>
+            <Stack marginRight={1}>
+              <Typography variant="body2">สถานที่:</Typography>
+              <Typography variant="body2">วันที่:</Typography>
+              <Typography variant="body2">เวลา:</Typography>
+            </Stack>
             <Stack>
               <Typography variant="body2">
-                สถานที่:{" "}
                 {[activity.room_name, activity.building_name]
                   .filter(Boolean)
                   .join(" ")}
               </Typography>
               <Typography variant="body2">
-                เวลา: {dayjs(activity.start_time).format("HH:mm")} -{" "}
-                {dayjs(activity.end_time).format("HH:mm")}
+                {dayjs
+                  .utc(activity.start_time)
+                  .tz("Asia/Bangkok")
+                  .format("D MMMM BBBB")}
+              </Typography>
+              <Typography variant="body2">
+                {dayjs(activity.start_time).format("HH:mm")} น. -&nbsp;
+                {dayjs(activity.end_time).format("HH:mm")} น.
               </Typography>
             </Stack>
-            <Typography variant="caption">{activity.description}</Typography>
-          </Stack>
-        </Box>
+          </Box>
+
+          <Typography variant="caption">{activity.description}</Typography>
+        </Stack>
       </Box>
     </Box>
   );

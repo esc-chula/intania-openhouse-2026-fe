@@ -13,7 +13,6 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { workshopQueryKeys } from "@/services/workshop/query/workshop-query";
 import { useAuth } from "@/contexts/auth-provider";
-import dayjs from "dayjs";
 import { BackButton } from "@/components/back-button";
 import {
   SnackbarAlert,
@@ -23,6 +22,16 @@ import {
   useBookWorkshopMutation,
   useCancelWorkshopMutation,
 } from "@/services/workshop/mutation/use-booking";
+import dayjs from "dayjs";
+import buddhistEra from "dayjs/plugin/buddhistEra";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import "dayjs/locale/th";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(buddhistEra);
+dayjs.locale("th");
 
 export default function WorkshopView() {
   const params = useParams<{ id: string }>();
@@ -198,6 +207,7 @@ export default function WorkshopView() {
               paddingY: 3,
               gap: 2,
               borderRadius: 1,
+              flexGrow: 1,
               boxShadow:
                 "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
             }}
@@ -212,21 +222,32 @@ export default function WorkshopView() {
                 alignSelf: "center",
               }}
             />
-            <Stack marginX={4}>
-              <Typography variant="body2">
-                สถานที่: {workshop.location}
-              </Typography>
-              <Typography variant="body2">
-                เวลา: {dayjs(workshop.start_time).format("HH:mm")} -{" "}
-                {dayjs(workshop.end_time).format("HH:mm")}
-              </Typography>
-              <Typography variant="body2">
-                ภาควิชา: {workshop.affiliation}
-              </Typography>
-              <Typography variant="body2">
-                ลงทะเบียน: {workshop.registered_count} / {workshop.total_seats}
-              </Typography>
-            </Stack>
+            <Box sx={{display: "flex"}}>
+              <Stack marginLeft={4} marginRight={1}>
+                <Typography variant="body2">สถานที่:</Typography>
+                <Typography variant="body2">วันที่:</Typography>
+                <Typography variant="body2">เวลา:</Typography>
+                <Typography variant="body2">ภาควิชา:</Typography>
+                <Typography variant="body2">ลงทะเบียน:</Typography>
+              </Stack>
+              <Stack>
+                <Typography variant="body2">{workshop.location}</Typography>
+                <Typography variant="body2">
+                  {dayjs
+                    .utc(workshop.event_date)
+                    .tz("Asia/Bangkok")
+                    .format("D MMMM BBBB")}
+                </Typography>
+                <Typography variant="body2">
+                  {dayjs(workshop.start_time).format("HH:mm")} น. -&nbsp;
+                  {dayjs(workshop.end_time).format("HH:mm")} น.
+                </Typography>
+                <Typography variant="body2">{workshop.affiliation}</Typography>
+                <Typography variant="body2">
+                  {workshop.registered_count} / {workshop.total_seats}
+                </Typography>
+              </Stack>
+            </Box>
             <Typography variant="caption" marginX={4}>
               {workshop.description}
             </Typography>

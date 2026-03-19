@@ -3,7 +3,7 @@ import { ky } from "@/services/ky";
 import type { Workshop } from "@/types/workshop/workshop";
 
 const WORKSHOP_FIELDS =
-  "name,start_time,end_time,description,category,location,total_seats,registered_count,affiliation";
+  "name,event_date,start_time,end_time,description,category,location,total_seats,registered_count,affiliation";
 
 export async function fetchGetWorkshopById(
   id: string | number,
