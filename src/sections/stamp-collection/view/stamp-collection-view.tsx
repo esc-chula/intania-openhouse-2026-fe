@@ -1,7 +1,14 @@
 "use client";
 
 import { color } from "@/theme/core/colors";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  Modal,
+  Stack,
+  ButtonBase,
+} from "@mui/material";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/auth-provider";
@@ -18,6 +25,11 @@ import RedeemButton from "../redeem-button";
 
 export default function StampCollectionView() {
   const { loading: authLoading } = useAuth();
+
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [pendingCategory, setPendingCategory] = useState<StampCategory | null>(
+    null,
+  );
 
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
@@ -40,25 +52,41 @@ export default function StampCollectionView() {
   const { mutate: redeemStamps, isPending: isRedeeming } =
     useRedeemStampsMutation();
 
-  const handleRedeem = (category: StampCategory) => {
-    redeemStamps(category, {
-      onSuccess: () => {
-        setSnackbar({
-          open: true,
-          message: "รับของที่ระลึกสำเร็จ!",
-          severity: "success",
-        });
-        refetchStamps();
-        refetchStatus();
-      },
-      onError: () => {
-        setSnackbar({
-          open: true,
-          message: "ไม่สามารถรับของที่ระลึกได้",
-          severity: "error",
-        });
-      },
-    });
+  const handleRedeemClick = (category: StampCategory) => {
+    setPendingCategory(category);
+    setDialogOpen(true);
+  };
+
+  const handleConfirm = () => {
+    if (pendingCategory) {
+      redeemStamps(pendingCategory, {
+        onSuccess: () => {
+          setSnackbar({
+            open: true,
+            message: "รับของที่ระลึกสำเร็จ!",
+            severity: "success",
+          });
+          refetchStamps();
+          refetchStatus();
+          setDialogOpen(false);
+          setPendingCategory(null);
+        },
+        onError: () => {
+          setSnackbar({
+            open: true,
+            message: "ไม่สามารถรับของที่ระลึกได้",
+            severity: "error",
+          });
+          setDialogOpen(false);
+          setPendingCategory(null);
+        },
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    setDialogOpen(false);
+    setPendingCategory(null);
   };
 
   const isLoading = isLoadingStamps || isLoadingStatus || authLoading;
@@ -182,7 +210,7 @@ export default function StampCollectionView() {
           isRedeemed={deptStatus?.is_redeemed}
           redeemable={deptStatus?.redeemable}
           isLoading={isRedeeming}
-          onRedeem={handleRedeem}
+          onRedeem={handleRedeemClick}
           category="department"
         />
         <Typography variant="h4" color={color.PRIMARY_MAIN}>
@@ -205,7 +233,7 @@ export default function StampCollectionView() {
           isRedeemed={clubStatus?.is_redeemed}
           redeemable={clubStatus?.redeemable}
           isLoading={isRedeeming}
-          onRedeem={handleRedeem}
+          onRedeem={handleRedeemClick}
           category="club"
         />
         <Typography variant="h4" color={color.PRIMARY_MAIN}>
@@ -229,10 +257,102 @@ export default function StampCollectionView() {
           isRedeemed={exhiStatus?.is_redeemed}
           redeemable={exhiStatus?.redeemable}
           isLoading={isRedeeming}
-          onRedeem={handleRedeem}
+          onRedeem={handleRedeemClick}
           category="exhibition"
         />
       </Box>
+      <Modal
+        open={dialogOpen}
+        onClose={handleCancel}
+        disableAutoFocus
+        disableEnforceFocus
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          userSelect: "none",
+        }}
+      >
+        <Box
+          sx={{
+            width: 300,
+            minHeight: 420,
+            backgroundImage: "url('/background/confirm-modal.svg')",
+            backgroundSize: "contain",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            paddingTop: "30px",
+            paddingBottom: "30px",
+            paddingX: 4,
+            position: "relative",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              color: color.PRIMARY_MAIN,
+              marginTop: "80px",
+            }}
+          >
+            ยืนยันแลกของที่ระลึก
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: color.TEXT_SECONDARY,
+              textAlign: "center",
+              marginBottom: "32px",
+              maxWidth: "80%",
+            }}
+          >
+            โปรดส่งโทรศัพท์ให้เจ้าหน้าที่ <br />
+            เพื่อทำการยืนยัน
+            <br />
+            <br />
+            หมายเหตุ: สามารถกดได้เพียงครั้งเดียวเท่านั้น
+            ไม่สามารถยกเลิกได้ในภายหลัง
+          </Typography>
+          <Stack
+            direction="row"
+            spacing={3}
+            sx={{ width: "100%", justifyContent: "center" }}
+          >
+            <ButtonBase
+              onClick={handleCancel}
+              sx={{
+                width: 143,
+                height: 40,
+                borderRadius: "8px",
+                border: "1px solid #637381",
+                color: color.TEXT_SECONDARY,
+                fontSize: "16px",
+                fontWeight: 700,
+              }}
+            >
+              ยกเลิก
+            </ButtonBase>
+            <ButtonBase
+              onClick={handleConfirm}
+              disabled={isRedeeming}
+              sx={{
+                width: 143,
+                height: 40,
+                borderRadius: "8px",
+                backgroundColor: "#267F59",
+                color: "white",
+                fontSize: "16px",
+                fontWeight: 700,
+                opacity: isRedeeming ? 0.6 : 1,
+              }}
+            >
+              ยืนยัน
+            </ButtonBase>
+          </Stack>
+        </Box>
+      </Modal>
       <SnackbarAlert
         open={snackbar.open}
         message={snackbar.message}
