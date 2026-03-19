@@ -12,11 +12,13 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { workshopQueryKeys } from "@/services/workshop/query/workshop-query";
+import { useAuth } from "@/contexts/auth-provider";
 import dayjs from "dayjs";
 import { BackButton } from "@/components/back-button";
 
 export default function WorkshopView() {
   const params = useParams<{ id: string }>();
+  const { loading: authLoading } = useAuth();
   const [reserve, setReserve] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [pendingAction, setPendingAction] = useState<boolean | null>(null);
@@ -25,7 +27,7 @@ export default function WorkshopView() {
     data: workshop,
     isLoading,
     isError,
-  } = useQuery(workshopQueryKeys.detailOptions(params.id));
+  } = useQuery(workshopQueryKeys.detailOptions(params.id, authLoading));
 
   const handleButtonClick = (action: boolean) => {
     setPendingAction(action);
@@ -43,17 +45,35 @@ export default function WorkshopView() {
     setDialogOpen(false);
   };
 
-  if (isLoading) {
+  if (isLoading || !workshop) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100dvh", background: "url('/background/bg-landing.png')", backgroundSize: "cover" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100dvh",
+          background: "url('/background/bg-landing.png')",
+          backgroundSize: "cover",
+        }}
+      >
         <CircularProgress color="primary" />
       </Box>
     );
   }
 
-  if (isError || !workshop) {
+  if (isError) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100dvh", background: "url('/background/bg-landing.png')", backgroundSize: "cover" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100dvh",
+          background: "url('/background/bg-landing.png')",
+          backgroundSize: "cover",
+        }}
+      >
         <Typography color="error">Failed to load workshop data</Typography>
       </Box>
     );

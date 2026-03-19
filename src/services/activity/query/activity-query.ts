@@ -3,9 +3,10 @@ import { ky } from "@/services/ky";
 import type { GetActivityResponse } from "@/types/activity/activity";
 
 export async function fetchGetActivityById(
-  id: string | number
+  id: string | number,
 ): Promise<GetActivityResponse> {
-  return await ky.get(`activities/${id}`).json<GetActivityResponse>();
+  const res = await ky.get(`activities/${id}`).json<GetActivityResponse>();
+  return res;
 }
 
 export const activityQueryKeys = {
@@ -14,11 +15,10 @@ export const activityQueryKeys = {
   detail: (id: string | number) =>
     [...activityQueryKeys.details(), id] as const,
 
-  detailOptions: (id?: string | number) =>
+  detailOptions: (id?: string | number, authLoading?: boolean) =>
     queryOptions({
       queryKey: activityQueryKeys.detail(id ?? ""),
       queryFn: () => fetchGetActivityById(id as string | number),
-      enabled: !!id,
+      enabled: !authLoading && !!id,
     }),
 };
-

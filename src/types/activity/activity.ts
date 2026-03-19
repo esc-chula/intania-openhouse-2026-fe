@@ -10,7 +10,7 @@ export interface Activity {
   image?: string;
 }
 
-export interface ActivityItem {
+export interface GetActivityResponse {
   id: number;
   title: string;
   start_time: string;
@@ -22,8 +22,3 @@ export interface ActivityItem {
   image?: string;
   is_happening: boolean;
 }
-
-export interface GetActivityResponse {
-  body: ActivityItem;
-}
-

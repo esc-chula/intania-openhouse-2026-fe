@@ -1,32 +1,52 @@
+"use client";
+
 import { BackButton } from "@/components/back-button";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { activityQueryKeys } from "@/services/activity/query/activity-query";
+import { useAuth } from "@/contexts/auth-provider";
 import dayjs from "dayjs";
 
 export default function ActivityView() {
   const params = useParams<{ id: string }>();
+  const { loading: authLoading } = useAuth();
 
   const {
-    data: response,
+    data: activity,
     isLoading,
     isError,
-  } = useQuery(activityQueryKeys.detailOptions(params.id));
+  } = useQuery(activityQueryKeys.detailOptions(params.id, authLoading));
 
-  const activity = response?.body;
-
-  if (isLoading) {
+  if (isLoading || !activity) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100dvh", background: "url('/background/bg-landing.png')", backgroundSize: "cover" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100dvh",
+          background: "url('/background/bg-landing.png')",
+          backgroundSize: "cover",
+        }}
+      >
         <CircularProgress color="primary" />
       </Box>
     );
   }
 
-  if (isError || !activity) {
+  if (isError) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100dvh", background: "url('/background/bg-landing.png')", backgroundSize: "cover" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100dvh",
+          background: "url('/background/bg-landing.png')",
+          backgroundSize: "cover",
+        }}
+      >
         <Typography color="error">Failed to load activity data</Typography>
       </Box>
     );
@@ -71,7 +91,7 @@ export default function ActivityView() {
             }}
           />
           <Typography
-            variant="h3"
+            variant="h5"
             sx={{
               position: "absolute",
               top: "40%",
@@ -150,16 +170,17 @@ export default function ActivityView() {
           >
             <Stack>
               <Typography variant="body2">
-                สถานที่: {[activity.room_name, activity.building_name].filter(Boolean).join(" ")}
+                สถานที่:{" "}
+                {[activity.room_name, activity.building_name]
+                  .filter(Boolean)
+                  .join(" ")}
               </Typography>
               <Typography variant="body2">
                 เวลา: {dayjs(activity.start_time).format("HH:mm")} -{" "}
                 {dayjs(activity.end_time).format("HH:mm")}
               </Typography>
             </Stack>
-            <Typography variant="caption">
-              {activity.description}
-            </Typography>
+            <Typography variant="caption">{activity.description}</Typography>
           </Stack>
         </Box>
       </Box>
