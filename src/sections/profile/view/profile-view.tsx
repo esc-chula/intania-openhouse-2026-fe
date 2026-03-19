@@ -1,5 +1,5 @@
 "use client";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, ButtonBase } from "@mui/material";
 import { useState, useRef } from "react";
 import { WorkshopActyCard, CardItem } from "@/components/workshop-acty-card"
 import { UserProfileCard } from "@/components/user-profile-card"
@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { usersQueryKeys } from "@/services/user/query/user-query";
 import { userBookingsQueryKeys } from "@/services/user/query/user-booking-query";
 import { userStampsQueryKeys } from "@/services/user/query/user-stamp-query";
+
+const USER_FIELDS: string[] = ["first_name", "last_name", "email"];
 
 export default function ProfileView() {
     const [selectedItem, setSelectedItem] = useState<CardItem | null>(null);
@@ -16,8 +18,8 @@ export default function ProfileView() {
         setSelectedItem(item);
     };
 
-    const { data: user, isLoading, isError } = useQuery(
-        usersQueryKeys.meOptions()
+    const { data: user, isLoading: isLoading, isError: isError} = useQuery(
+        usersQueryKeys.meOptions({ fields: USER_FIELDS }) 
     );
 
     const { data: bookingData, isLoading: isBookingLoading, isError: isBookingError } = useQuery(
@@ -50,10 +52,10 @@ export default function ProfileView() {
 
     const WorkshopData: CardItem[] = bookingData?.bookings?.map((b) => ({
         id: b.workshop_id,
-        title: b.workshop.department,
+        title: b.workshop.name,
         location: b.workshop.location,
         time: b.workshop.start_time,
-        department: b.workshop.department,
+        department: "",
         status: b.status,
         registered: b.workshop.registered_count, 
         max: b.workshop.total_seats,
@@ -114,7 +116,7 @@ export default function ProfileView() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                minheight: "100dvh",
+                minHeight: "100dvh",
                 background: "url('/background/bg-workshop-activities.png')",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
@@ -231,7 +233,7 @@ export default function ProfileView() {
                     borderRadius: "16px",
                     padding: "20px",
                     filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3))",
-                    mt: 1,
+                    mt: -1,
                 }}
             >
                 <Typography
@@ -249,6 +251,39 @@ export default function ProfileView() {
                     TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest
                 </Typography>
             </Box>
+            <ButtonBase
+                sx={{
+                    paddingX: "20px",
+                    paddingY: "10px",
+                    backgroundColor: '#5B3722',
+                    borderRadius: "10px",
+                    filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3))",
+                    '&:hover': {
+                        backgroundColor: '#4a2c1b',
+                    },
+                    '&:active': {
+                        backgroundColor: '#3e2414',
+                    }
+                }}>
+                <Typography
+                    sx={{
+                        textAlign: 'center',
+                        color: '#ffffff',
+                        fontSize: '16px',
+                        fontWeight: 600,
+                    }}
+                >
+                    ประเมินความพึงพอใจ
+                </Typography>
+            </ButtonBase>
+            <Box
+                component="img"
+                src="/banner/sponsor-banner-2.svg"
+                sx={{
+                    width: '100%',
+                    display: 'block',
+                }}
+            />
         </Box>
     );
 }

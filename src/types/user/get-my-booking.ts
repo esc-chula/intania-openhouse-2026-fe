@@ -2,7 +2,7 @@ export type TWorkshop = {
   end_time: string;
   location: string;
   event_date: string;
-  department: string;
+  name: string;
   start_time: string;
   registered_count: number;
   total_seats: number;
