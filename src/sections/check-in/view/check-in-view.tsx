@@ -127,16 +127,11 @@ export default function CheckInView() {
                       onSuccess: () => {
                         setCheckInName(displayName);
                         setScanning(false);
-                        setSnackbar({
-                          open: true,
-                          message: "เช็กอินสำเร็จ",
-                          severity: "success",
-                        });
                       },
                       onError: () => {
                         setSnackbar({
                           open: true,
-                          message: "เช็กอินไม่สำเร็จ",
+                          message: "Check in ไม่สำเร็จ",
                           severity: "error",
                         });
                       },
