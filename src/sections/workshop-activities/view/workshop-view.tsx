@@ -15,6 +15,14 @@ import { workshopQueryKeys } from "@/services/workshop/query/workshop-query";
 import { useAuth } from "@/contexts/auth-provider";
 import dayjs from "dayjs";
 import { BackButton } from "@/components/back-button";
+import {
+  SnackbarAlert,
+  type SnackbarSeverity,
+} from "@/components/snackbar-alert";
+import {
+  useBookWorkshopMutation,
+  useCancelWorkshopMutation,
+} from "@/services/workshop/mutation/use-booking";
 
 export default function WorkshopView() {
   const params = useParams<{ id: string }>();
@@ -22,6 +30,16 @@ export default function WorkshopView() {
   const [reserve, setReserve] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [pendingAction, setPendingAction] = useState<boolean | null>(null);
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: SnackbarSeverity;
+  }>({ open: false, message: "", severity: "success" });
+
+  const { mutate: bookWorkshop, isPending: isBooking } =
+    useBookWorkshopMutation();
+  const { mutate: cancelWorkshop, isPending: isCancelling } =
+    useCancelWorkshopMutation();
 
   const {
     data: workshop,
@@ -35,10 +53,47 @@ export default function WorkshopView() {
   };
 
   const handleConfirm = () => {
-    if (pendingAction !== null) {
-      setReserve(pendingAction);
+    if (pendingAction === true) {
+      bookWorkshop(params.id, {
+        onSuccess: () => {
+          setReserve(true);
+          setDialogOpen(false);
+          setSnackbar({
+            open: true,
+            message: "จองเวิร์คช็อปสำเร็จ",
+            severity: "success",
+          });
+        },
+        onError: () => {
+          setDialogOpen(false);
+          setSnackbar({
+            open: true,
+            message: "จองเวิร์คช็อปไม่สำเร็จ",
+            severity: "error",
+          });
+        },
+      });
+    } else if (pendingAction === false) {
+      cancelWorkshop(params.id, {
+        onSuccess: () => {
+          setReserve(false);
+          setDialogOpen(false);
+          setSnackbar({
+            open: true,
+            message: "ยกเลิกเวิร์คช็อปสำเร็จ",
+            severity: "success",
+          });
+        },
+        onError: () => {
+          setDialogOpen(false);
+          setSnackbar({
+            open: true,
+            message: "ยกเลิกเวิร์คช็อปไม่สำเร็จ",
+            severity: "error",
+          });
+        },
+      });
     }
-    setDialogOpen(false);
   };
 
   const handleCancel = () => {
@@ -80,225 +135,239 @@ export default function WorkshopView() {
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100dvh",
-        background: "url('/background/bg-landing.png')",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-      }}
-    >
+    <>
       <Box
         sx={{
-          padding: 2,
-          position: "relative",
           display: "flex",
           flexDirection: "column",
-          flexGrow: 1,
-          gap: 3,
+          minHeight: "100dvh",
+          background: "url('/background/bg-landing.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
         }}
       >
-        <BackButton sx={{ alignSelf: "flex-start" }} />
         <Box
           sx={{
+            padding: 2,
             position: "relative",
-            width: "100%",
-            alignSelf: "center",
-          }}
-        >
-          <Box
-            component="img"
-            src="/banner/activity-banner.svg"
-            sx={{
-              width: "80%",
-              display: "block",
-              marginX: "auto",
-            }}
-          />
-          <Typography
-            variant="h3"
-            sx={{
-              position: "absolute",
-              top: "40%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: color.PRIMARY_MAIN,
-              textAlign: "center",
-              pointerEvents: "none",
-            }}
-          >
-            {workshop.name}
-          </Typography>
-        </Box>
-        <Stack
-          sx={{
             display: "flex",
-            backgroundColor: "#F8F3E8",
             flexDirection: "column",
-            alignSelf: "center",
-            paddingX: 2,
-            paddingY: 3,
-            gap: 2,
-            borderRadius: 1,
-            boxShadow:
-              "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
+            flexGrow: 1,
+            gap: 3,
           }}
         >
+          <BackButton sx={{ alignSelf: "flex-start" }} />
           <Box
-            component="img"
-            src="/example.png"
             sx={{
-              width: "75%",
-              objectFit: "cover",
-              display: "block",
+              position: "relative",
+              width: "100%",
               alignSelf: "center",
             }}
-          />
-          <Stack marginX={4}>
-            <Typography variant="body2">
-              สถานที่: {workshop.location}
+          >
+            <Box
+              component="img"
+              src="/banner/activity-banner.svg"
+              sx={{
+                width: "80%",
+                display: "block",
+                marginX: "auto",
+              }}
+            />
+            <Typography
+              variant="h5"
+              sx={{
+                position: "absolute",
+                top: "40%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                color: color.PRIMARY_MAIN,
+                textAlign: "center",
+                pointerEvents: "none",
+              }}
+            >
+              {workshop.name}
             </Typography>
-            <Typography variant="body2">
-              เวลา: {dayjs(workshop.start_time).format("HH:mm")} -{" "}
-              {dayjs(workshop.end_time).format("HH:mm")}
-            </Typography>
-            <Typography variant="body2">
-              ภาควิชา: {workshop.affiliation}
-            </Typography>
-            <Typography variant="body2">
-              ลงทะเบียน: {workshop.registered_count} / {workshop.total_seats}
+          </Box>
+          <Stack
+            sx={{
+              display: "flex",
+              backgroundColor: "#F8F3E8",
+              flexDirection: "column",
+              alignSelf: "center",
+              paddingX: 2,
+              paddingY: 3,
+              gap: 2,
+              borderRadius: 1,
+              boxShadow:
+                "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
+            }}
+          >
+            <Box
+              component="img"
+              src="/example.png"
+              sx={{
+                width: "75%",
+                objectFit: "cover",
+                display: "block",
+                alignSelf: "center",
+              }}
+            />
+            <Stack marginX={4}>
+              <Typography variant="body2">
+                สถานที่: {workshop.location}
+              </Typography>
+              <Typography variant="body2">
+                เวลา: {dayjs(workshop.start_time).format("HH:mm")} -{" "}
+                {dayjs(workshop.end_time).format("HH:mm")}
+              </Typography>
+              <Typography variant="body2">
+                ภาควิชา: {workshop.affiliation}
+              </Typography>
+              <Typography variant="body2">
+                ลงทะเบียน: {workshop.registered_count} / {workshop.total_seats}
+              </Typography>
+            </Stack>
+            <Typography variant="caption" marginX={4}>
+              {workshop.description}
             </Typography>
           </Stack>
-          <Typography variant="caption" marginX={4}>
-            {workshop.description}
-          </Typography>
-        </Stack>
-        {reserve === false ? (
-          <Box
-            component="img"
-            src="/button/reserve-button.svg"
-            onClick={() => handleButtonClick(true)}
-            sx={{
-              width: {
-                xs: "50%",
-                sm: "60%",
-                alignSelf: "center",
-              },
-            }}
-          />
-        ) : (
-          <Box
-            component="img"
-            src="/button/cancel-button.svg"
-            onClick={() => handleButtonClick(false)}
-            sx={{
-              width: {
-                xs: "50%",
-                sm: "60%",
-                alignSelf: "center",
-              },
-            }}
-          />
-        )}
-      </Box>
-      <Modal
-        open={dialogOpen}
-        onClose={handleCancel}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
+          {!reserve ? (
+            <Box
+              component="img"
+              src="/button/reserve-button.svg"
+              onClick={() => handleButtonClick(true)}
+              sx={{
+                width: {
+                  xs: "50%",
+                  sm: "60%",
+                  alignSelf: "center",
+                },
+              }}
+            />
+          ) : (
+            <Box
+              component="img"
+              src="/button/cancel-button.svg"
+              onClick={() => handleButtonClick(false)}
+              sx={{
+                width: {
+                  xs: "50%",
+                  sm: "60%",
+                  alignSelf: "center",
+                },
+              }}
+            />
+          )}
+        </Box>
+        <Modal
+          open={dialogOpen}
+          onClose={handleCancel}
+          disableAutoFocus
+          disableEnforceFocus
           sx={{
-            width: 300,
-            minHeight: 400,
-            backgroundImage: "url('/background/confirm-modal.svg')",
-            backgroundSize: "contain",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            paddingTop: "60px",
-            paddingBottom: "30px",
-            paddingX: 4,
-            position: "relative",
+            justifyContent: "center",
+            userSelect: "none",
           }}
         >
-          <Typography
-            variant="h4"
+          <Box
             sx={{
-              color: color.PRIMARY_MAIN,
-              marginTop: "75px",
+              width: 300,
+              minHeight: 400,
+              backgroundImage: "url('/background/confirm-modal.svg')",
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              paddingTop: "60px",
+              paddingBottom: "30px",
+              paddingX: 4,
+              position: "relative",
             }}
           >
-            {pendingAction === true
-              ? "จองเวิร์คช็อป"
-              : "ยกเลิกการจองเวิร์คช็อป"}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              color: color.TEXT_SECONDARY,
-              textAlign: "center",
-              marginBottom: "32px",
-              maxWidth: "80%",
-            }}
-          >
-            {pendingAction === true ? (
-              <>
-                กด “จอง” เพื่อสำรองที่นั่ง
-                <br />
-                สำหรับเวิร์คช็อปนี้
-              </>
-            ) : (
-              <>
-                เมื่อยกเลิกการจองแล้ว
-                <br />
-                ยังสามารถทำการจองใหม่ได้
-              </>
-            )}
-          </Typography>
-          <Stack
-            direction="row"
-            spacing={3}
-            sx={{ width: "100%", justifyContent: "center" }}
-          >
-            <ButtonBase
-              onClick={handleCancel}
+            <Typography
+              variant="h5"
               sx={{
-                width: 143,
-                height: 40,
-                borderRadius: "8px",
-                border: "1px solid #637381", // Change border color based on theme soon
+                color: color.PRIMARY_MAIN,
+                marginTop: "80px",
+              }}
+            >
+              {pendingAction === true
+                ? "จองเวิร์คช็อป"
+                : "ยกเลิกการจองเวิร์คช็อป"}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
                 color: color.TEXT_SECONDARY,
-                fontSize: "16px",
-                fontWeight: 700,
+                textAlign: "center",
+                marginBottom: "32px",
+                maxWidth: "80%",
               }}
             >
-              ปิด
-            </ButtonBase>
-            <ButtonBase
-              onClick={handleConfirm}
-              sx={{
-                width: 143,
-                height: 40,
-                borderRadius: "8px",
-                backgroundColor: pendingAction === true ? "#267F59" : "#B71931", // Green for book, Red for cancel
-                color: "white",
-                fontSize: "16px",
-                fontWeight: 700,
-              }}
+              {pendingAction === true ? (
+                <>
+                  กด “จอง” เพื่อสำรองที่นั่ง
+                  <br />
+                  สำหรับเวิร์คช็อปนี้
+                </>
+              ) : (
+                <>
+                  เมื่อยกเลิกการจองแล้ว
+                  <br />
+                  ยังสามารถทำการจองใหม่ได้
+                </>
+              )}
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={3}
+              sx={{ width: "100%", justifyContent: "center" }}
             >
-              {pendingAction === true ? "จอง" : "ยกเลิก"}
-            </ButtonBase>
-          </Stack>
-        </Box>
-      </Modal>
-    </Box>
+              <ButtonBase
+                onClick={handleCancel}
+                sx={{
+                  width: 143,
+                  height: 40,
+                  borderRadius: "8px",
+                  border: "1px solid #637381",
+                  color: color.TEXT_SECONDARY,
+                  fontSize: "16px",
+                  fontWeight: 700,
+                }}
+              >
+                ปิด
+              </ButtonBase>
+              <ButtonBase
+                onClick={handleConfirm}
+                disabled={isBooking || isCancelling}
+                sx={{
+                  width: 143,
+                  height: 40,
+                  borderRadius: "8px",
+                  backgroundColor:
+                    pendingAction === true ? "#267F59" : "#B71931",
+                  color: "white",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  opacity: isBooking || isCancelling ? 0.6 : 1,
+                }}
+              >
+                {pendingAction === true ? "จอง" : "ยกเลิก"}
+              </ButtonBase>
+            </Stack>
+          </Box>
+        </Modal>
+      </Box>
+      <SnackbarAlert
+        open={snackbar.open}
+        message={snackbar.message}
+        severity={snackbar.severity}
+        onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+      />
+    </>
   );
 }

@@ -2,11 +2,13 @@ import { queryOptions } from "@tanstack/react-query";
 import { ky } from "@/services/ky";
 import type { Workshop } from "@/types/workshop/workshop";
 
+const WORKSHOP_FIELDS =
+  "name,start_time,end_time,description,category,location,total_seats,registered_count,affiliation";
+
 export async function fetchGetWorkshopById(
   id: string | number,
 ): Promise<Workshop> {
-  const res = await ky.get(`workshops/${id}`).json<Workshop>();
-  return res;
+  return ky.get(`workshops/${id}?fields=${WORKSHOP_FIELDS}`).json<Workshop>();
 }
 
 export const workshopQueryKeys = {
