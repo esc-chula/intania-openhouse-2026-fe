@@ -4,7 +4,7 @@ import { typography } from "@/theme/core";
 import { color } from "@/theme/core/colors";
 import { Alert, Box, Stack, Typography } from "@mui/material";
 
-export default function CheckIn() {
+export default function CheckIn({ name }: { name: string }) {
   return (
     <Stack
       sx={{
@@ -13,7 +13,7 @@ export default function CheckIn() {
         justifyContent: "center",
         gap: 4,
         mt: 6,
-        mb: 8
+        mb: 8,
       }}
     >
       <Box
@@ -48,7 +48,7 @@ export default function CheckIn() {
             alignItems: "center",
           }}
         >
-          Booth Booth_Name
+          Booth {name}
         </Alert>
       </Box>
     </Stack>
