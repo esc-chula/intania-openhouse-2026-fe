@@ -21,7 +21,7 @@ import {
   SnackbarAlert,
   type SnackbarSeverity,
 } from "@/components/snackbar-alert";
-import RedeemButton from "../redeem-button";
+import StampSection from "../stamp-section";
 
 export default function StampCollectionView() {
   const { loading: authLoading } = useAuth();
@@ -188,75 +188,42 @@ export default function StampCollectionView() {
             สงวนสิทธิ์ให้กับผู้ที่ทำภารกิจสำเร็จก่อนเท่านั้น
           </Typography>
         </Box>
-        <Typography variant="h4" color={color.PRIMARY_MAIN}>
-          ภาควิชาต่างๆ
-        </Typography>
-
-        <Box
-          component="img"
-          sx={{ height: 480, width: 320, alignSelf: "center" }}
-          src={`/stamp/department/department_${deptCount}.svg`}
-        />
-        <Typography
-          variant="body2"
-          alignSelf={"center"}
-          textAlign={"center"}
-          color={color.PRIMARY_MAIN}
-        >
-          เช็กอิน 4 ภาควิชา <br />{" "}
-          และส่งโทรศัพท์ให้เจ้าหน้าที่เพื่อแลกของที่ระลึก
-        </Typography>
-        <RedeemButton
+        <StampSection
+          title="ภาควิชาต่างๆ"
+          imageSrc="/stamp/department/department"
+          imageHeight={480}
+          count={deptCount}
+          required={4}
+          unit="ภาควิชา"
           isRedeemed={deptStatus?.is_redeemed}
           redeemable={deptStatus?.redeemable}
-          isLoading={isRedeeming}
+          isRedeeming={isRedeeming}
           onRedeem={handleRedeemClick}
           category="department"
         />
-        <Typography variant="h4" color={color.PRIMARY_MAIN}>
-          ชมรมต่างๆ
-        </Typography>
-        <Box
-          component="img"
-          sx={{ height: 480, width: 320, alignSelf: "center" }}
-          src={`/stamp/club/club_${clubCount}.svg`}
-        />
-        <Typography
-          variant="body2"
-          alignSelf={"center"}
-          textAlign={"center"}
-          color={color.PRIMARY_MAIN}
-        >
-          เช็กอิน 4 ชมรม <br /> และส่งโทรศัพท์ให้เจ้าหน้าที่เพื่อแลกของที่ระลึก
-        </Typography>
-        <RedeemButton
+        <StampSection
+          title="ชมรมต่างๆ"
+          imageSrc="/stamp/club/club"
+          imageHeight={480}
+          count={clubCount}
+          required={4}
+          unit="ชมรม"
           isRedeemed={clubStatus?.is_redeemed}
           redeemable={clubStatus?.redeemable}
-          isLoading={isRedeeming}
+          isRedeeming={isRedeeming}
           onRedeem={handleRedeemClick}
           category="club"
         />
-        <Typography variant="h4" color={color.PRIMARY_MAIN}>
-          นิทรรศการนวัตกรรม
-        </Typography>
-        <Box
-          component="img"
-          sx={{ height: 240, width: 320, alignSelf: "center" }}
-          src={`/stamp/exhibition/exhibition_${exhiCount}.svg`}
-        />
-        <Typography
-          variant="body2"
-          alignSelf={"center"}
-          textAlign={"center"}
-          color={color.PRIMARY_MAIN}
-        >
-          เช็กอิน 4 นิทรรศการนวัตกรรม <br />
-          และส่งโทรศัพท์ให้เจ้าหน้าที่เพื่อแลกของที่ระลึก
-        </Typography>
-        <RedeemButton
+        <StampSection
+          title="นิทรรศการนวัตกรรม"
+          imageSrc="/stamp/exhibition/exhibition"
+          imageHeight={240}
+          count={exhiCount}
+          required={5}
+          unit="นิทรรศการนวัตกรรม"
           isRedeemed={exhiStatus?.is_redeemed}
           redeemable={exhiStatus?.redeemable}
-          isLoading={isRedeeming}
+          isRedeeming={isRedeeming}
           onRedeem={handleRedeemClick}
           category="exhibition"
         />
