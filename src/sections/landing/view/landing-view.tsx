@@ -65,7 +65,7 @@ function LandingView() {
             zIndex: 1,
           }}
         >
-          {/* <LandingLoginButton /> */}
+          <LandingLoginButton />
 
           <Box
             component="img"
@@ -83,7 +83,7 @@ function LandingView() {
               cursor: "pointer",
             }}
           >
-            {/* <LandingRegisterButton /> */}
+            <LandingRegisterButton />
           </Typography>
         </Stack>
 
