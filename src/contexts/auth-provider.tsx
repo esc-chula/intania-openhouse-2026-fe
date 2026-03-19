@@ -31,18 +31,76 @@ type AuthCtx = {
 const Ctx = createContext<AuthCtx | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const api: AuthCtx = {
-    user: {
-      uid: "mock-user-123",
-      displayName: "Mock User",
-      email: "mock@example.com",
-    } as User,
-    loading: false,
-    isRegistered: false,
-    signInGoogle: async () => { console.log("A") },
-    signOutAll: async () => { console.log("B") },
-    refreshRegistration: async () => { console.log("C") }
-  }
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const auth = getFirebaseAuth();
+
+  const checkRegistration = useCallback(async (): Promise<boolean> => {
+    try {
+      await fetchGetMe();
+      setIsRegistered(true);
+      return true;
+    } catch {
+      setIsRegistered(false);
+      return false;
+    }
+  }, []);
+
+  const refreshRegistration = useCallback(async () => {
+    await checkRegistration();
+  }, [checkRegistration]);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (u) => {
+      setUser(u);
+      if (u) {
+        await checkRegistration();
+      } else {
+        setIsRegistered(false);
+      }
+      setLoading(false);
+    });
+    return unsub;
+  }, [auth, checkRegistration]);
+
+  const api = useMemo<AuthCtx>(
+    () => ({
+      user,
+      loading,
+      isRegistered,
+      signInGoogle: async (returnUrl?: string) => {
+        try {
+          await signInWithPopup(auth, googleProvider);
+
+          const registered = await checkRegistration();
+
+          if (registered) {
+            router.push(returnUrl || "/profile");
+          } else {
+            router.push("/terms-and-conditions");
+          }
+        } catch (error) {
+          console.error("Login failed", error);
+        }
+      },
+      signOutAll: async () => {
+        await signOut(auth);
+        setIsRegistered(false);
+      },
+      refreshRegistration,
+    }),
+    [
+      auth,
+      user,
+      loading,
+      isRegistered,
+      router,
+      checkRegistration,
+      refreshRegistration,
+    ],
+  );
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;
 }
