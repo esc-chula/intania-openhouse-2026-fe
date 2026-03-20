@@ -6,6 +6,7 @@ export type TWorkshop = {
   start_time: string;
   registered_count: number;
   total_seats: number;
+  affiliation: string;
 };
 
 export type TBookingItem = {

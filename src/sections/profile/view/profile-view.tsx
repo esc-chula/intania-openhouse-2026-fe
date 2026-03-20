@@ -7,12 +7,23 @@ import { useQuery } from "@tanstack/react-query";
 import { usersQueryKeys } from "@/services/user/query/user-query";
 import { userBookingsQueryKeys } from "@/services/user/query/user-booking-query";
 import { userStampsQueryKeys } from "@/services/user/query/user-stamp-query";
+import { Button } from '@mui/material';
 
 const USER_FIELDS: string[] = ["first_name", "last_name", "email"];
 
 export default function ProfileView() {
     const [selectedItem, setSelectedItem] = useState<CardItem | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+
+    const formatThaiDateFull = (dateStr: string) => {
+        if (!dateStr) return "-";
+        const date = new Date(dateStr);
+        return new Intl.DateTimeFormat('th-TH', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        }).format(date);
+    };
 
     const handleCardClick = (item: CardItem) => {
         setSelectedItem(item);
@@ -54,61 +65,15 @@ export default function ProfileView() {
         id: b.workshop_id,
         title: b.workshop.name,
         location: b.workshop.location,
-        time: b.workshop.start_time,
-        department: "",
-        status: b.status,
+        date: formatThaiDateFull(b.workshop.event_date),
+        time: b.workshop.start_time + " น. - " + b.workshop.end_time + " น.",
+        affiliation: b.workshop.affiliation,
+        status: "จองแล้ว",
         registered: b.workshop.registered_count, 
         max: b.workshop.total_seats,
         description: "",
         image:"",
     })) || [];
-
-    /*const UserData = {
-        name: "Name Namename",
-        email: "676767@gmail.com",
-        bookingCount: 2,
-        stampCount: 5,
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nattee", 
-    };
-
-    const WorkshopData: CardItem[] = [
-        {
-            id: 1,
-            title: "Patt recog",
-            location: "18-16",
-            time: "09:00 - 12:00",
-            department: "Computer Engineering",
-            status: "จองแล้ว",
-            registered: 48,
-            max: 50,
-            description: "",
-            image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop", 
-        },
-        {
-            id: 2,
-            title: "Comp theory",
-            location: "18-16",
-            time: "13:00 - 15:00",
-            department: "Computer Engineering",
-            status: "จองแล้ว",
-            registered: 25,
-            max: 30,
-            description: "",
-            image: "https://images.unsplash.com/photo-1541888081622-441d3d62327c?q=80&w=600&auto=format&fit=crop",
-        },
-        {
-            id: 3,
-            title: "DSDE",
-            location: "18-16",
-            time: "13:00 - 15:00",
-            department: "Computer Engineering",
-            status: "จองแล้ว",
-            registered: 25,
-            max: 30,
-            description: "",
-            image: "https://images.unsplash.com/photo-1541888081622-441d3d62327c?q=80&w=600&auto=format&fit=crop",
-        }
-    ];*/ // MOCK DATA
 
     return (
         <Box
@@ -121,50 +86,28 @@ export default function ProfileView() {
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
                 backgroundAttachment: "fixed",
-                gap: 2,
                 padding: "25px 25px",
+                gap: 2
             }}
         >  
             <UserProfileCard user={UserData} />
             <Box
+                component="img"
+                src="/banner/booking-banner.svg"
                 sx={{
-                    position: 'relative',
-                    width: "70%",
+                    width: '70%',
+                    display: 'block',
                 }}
-            >
-                <Box
-                    component="img"
-                    src="/button/base-button.svg"
-                    sx={{
-                        width: '100%',
-                        display: 'block',
-                    }}
-                />
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '45%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        color: "#5B3722",
-                        fontSize: '18px',
-                        fontWeight: 600,
-                        textAlign: 'center',
-                    }}
-                >
-                    My Booking
-                </Box>
-            </Box>
-            
+            />
             <Stack
-                spacing={2}
+                spacing={1}
                 sx={{
                     width: "100%",
                     maxWidth: "500px",
                     paddingTop: 1,
-                    paddingBottom: 4,  
                     msOverflowStyle: "none",
                     scrollbarWidth: "none",
+                    mt: -2
                 }}
             >   
                 {WorkshopData.length === 0 ? (
@@ -195,87 +138,70 @@ export default function ProfileView() {
                     ))
                 )}
             </Stack>
+
             <Box
+                component="img"
+                src="/banner/certificate-banner.svg"
                 sx={{
-                    position: 'relative',
-                    width: "70%",
+                    width: '70%',
+                    display: 'block',
                 }}
-            >
-                <Box
-                    component="img"
-                    src="/button/base-button.svg"
-                    sx={{
-                        width: '100%',
-                        display: 'block',
-                    }}
-                />
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '45%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        color: "#5B3722",
-                        fontSize: '18px',
-                        fontWeight: 600,
-                        textAlign: 'center',
-                    }}
-                >
-                    Certificate
-                </Box>
-            </Box>
+            />
             
             <Box
                 sx={{
                     width: "90%",
-                    maxWidth: "500px",
-                    backgroundColor: "#FDF9F3",
-                    borderRadius: "16px",
-                    padding: "20px",
+                    maxWidth: "292px",
+                    backgroundColor: "#F8F3E8",
+                    borderRadius: "8px",
+                    padding: "16px",
                     filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3))",
                     mt: -1,
                 }}
             >
                 <Typography
                     sx={{
-                        fontSize: "14px",
-                        color: "#212B36",
+                        color: '#212B36',
+                        fontFamily: 'var(--font-noto-thai)',
+                        fontSize: '12px',
+                        fontWeight: 500,
                         lineHeight: 1.6,
-                        textAlign: "justify", 
-                        fontFamily: "inherit",
+                        textAlign: "start", 
                         wordBreak: "break-word", 
                         overflowWrap: "break-word",
                     }}
                 >
-                    TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest
-                    TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest
+                    เงื่อนไขการรับเกียรติบัตร<br/>ประเภทที่ 1: เกียรติบัตรเข้าร่วมกิจกรรม (Participation Certificate)<br/>เยี่ยมชมบูธกิจกรรมภาควิชา จำนวน 5 ภาควิชาขึ้นไป หรือเยี่ยมชมบูธกิจกรรมชมรม จำนวน 3 ชมรมขึ้นไป<br/>ประเภทที่ 2: เกียรติบัตรเข้าร่วมการอบรม (Workshop Certificate) เข้าร่วมกิจกรรม Workshop อย่างน้อย 1 รายการ
                 </Typography>
             </Box>
-            <ButtonBase
+            <Button
+                variant="contained"
+                href="https://forms.gle/2GY62wJrT8oTaUkh8"
+                target="_blank" 
                 sx={{
-                    paddingX: "20px",
-                    paddingY: "10px",
+                    width: "157px", 
+                    height: "32px", 
                     backgroundColor: '#5B3722',
-                    borderRadius: "10px",
+                    borderRadius: "6px",
+                    padding: "6px 16px",
+                    boxShadow: 'none',
                     filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3))",
+                    color: '#ffffff',
+                    fontFamily: 'var(--font-noto-thai)',
+                    fontSize: '14px',
+                    fontWeight: 700,
                     '&:hover': {
                         backgroundColor: '#4a2c1b',
+                        boxShadow: 'none',
                     },
                     '&:active': {
                         backgroundColor: '#3e2414',
+                        boxShadow: 'none',
                     }
-                }}>
-                <Typography
-                    sx={{
-                        textAlign: 'center',
-                        color: '#ffffff',
-                        fontSize: '16px',
-                        fontWeight: 600,
-                    }}
+                }}
                 >
-                    ประเมินความพึงพอใจ
-                </Typography>
-            </ButtonBase>
+                ประเมินความพึงพอใจ
+            </Button>
             <Box
                 component="img"
                 src="/banner/sponsor-banner-2.svg"
