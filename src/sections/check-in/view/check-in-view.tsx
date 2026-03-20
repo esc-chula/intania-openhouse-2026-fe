@@ -120,9 +120,11 @@ export default function CheckInView() {
                   } else if (raw.startsWith("B-")) {
                     displayName = "บูธ";
                   }
+                  const parsed = JSON.parse(raw);
+                  const code = parsed.code;
 
                   doCheckIn(
-                    { code: raw },
+                    { code },
                     {
                       onSuccess: () => {
                         setCheckInName(displayName);

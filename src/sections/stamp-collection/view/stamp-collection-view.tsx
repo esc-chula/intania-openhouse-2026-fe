@@ -108,8 +108,8 @@ export default function StampCollectionView() {
     );
   }
 
-  const deptCount = Math.min(stamps?.department_stamp_count ?? 0, 4);
-  const clubCount = Math.min(stamps?.club_stamp_count ?? 0, 4);
+  const deptCount = Math.min(stamps?.department_stamp_count ?? 0, 5);
+  const clubCount = Math.min(stamps?.club_stamp_count ?? 0, 5);
   const exhiCount = Math.min(stamps?.exhibition_stamp_count ?? 0, 5);
 
   const deptStatus = status?.department;
@@ -193,7 +193,7 @@ export default function StampCollectionView() {
           imageSrc="/stamp/department/department"
           imageHeight={480}
           count={deptCount}
-          required={4}
+          required={5}
           unit="ภาควิชา"
           isRedeemed={deptStatus?.is_redeemed}
           redeemable={deptStatus?.redeemable}
@@ -206,7 +206,7 @@ export default function StampCollectionView() {
           imageSrc="/stamp/club/club"
           imageHeight={480}
           count={clubCount}
-          required={4}
+          required={5}
           unit="ชมรม"
           isRedeemed={clubStatus?.is_redeemed}
           redeemable={clubStatus?.redeemable}

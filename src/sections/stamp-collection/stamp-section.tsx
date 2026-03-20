@@ -40,7 +40,7 @@ export default function StampSection({
       <Box
         component="img"
         sx={{ height: imageHeight, width: 320, alignSelf: "center" }}
-        src={`${imageSrc}_${count}.svg`}
+        src={`${imageSrc}_${count}.png`}
       />
       <Typography
         variant="body2"

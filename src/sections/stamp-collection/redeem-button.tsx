@@ -48,7 +48,7 @@ export default function RedeemButton({
         backgroundColor: color.PRIMARY_MAIN,
         color: "#fff",
         "&:hover": {
-          backgroundColor: color.PRIMARY_MAIN, // keep same or slightly darker if you want
+          backgroundColor: color.PRIMARY_MAIN,
         },
         "&.Mui-disabled": {
           backgroundColor: color.GRAY_OPA_32,
