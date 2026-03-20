@@ -8,6 +8,8 @@ import { workshopQueryKeys } from "@/services/workshop/query/workshops-query";
 import ActivityCard from "../card/activityCard";
 import CollectionCard from "../card/collectionCard";
 import WorkshopCard from "../card/workshopCard";
+import { Button } from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const USER_FIELDS: string[] = ["first_name", "last_name", "email"];
 const QUICK_INFO = [
@@ -62,36 +64,60 @@ export default function HomeView() {
       <Box
         sx={{
           padding: "15px",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#F8F3E8",
           borderRadius: "10px",
           filter: "drop-shadow(0px 4px 3px rgba(0, 0, 0, 0.4))",
         }}
       >
-        <Typography sx={{ textAlign: "start", color: "#5B3722", fontSize: "14px", fontWeight: 400 }}>
-          เหล่านักเดินทางจากทั่วทุกสารทิศได้เดินทางเข้ามา ณ ดินแดน Intania ประเทศแห่งเทคโนโลยีและสิ่งประดิษฐ์ เพื่อหาเทคโนโลยีแห่งยุค เมื่อเหล่านักเดินทางมาถึงจึงได้ขอเข้าเฝ้าราชาของดินแดนแห่งนี้ ท่านได้สั่งให้เหล่านักเดินทางเข้าไปช่วยเหลือ พัฒนา และแก้ปัญหาต่าง ๆ ในพื้นที่ทั้ง 16 regions โดยให้ไปรับภารกิจจาก ผู้ปกครองของแต่ละพื้นที่เพื่อแลกเปลี่ยนความรู้และวิทยาการของดินแดน Intania
+        <Typography sx={{ textAlign: "start", color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "14px", fontWeight: 500 }}>
+          เหล่านักเดินทางจากทั่วทุกสารทิศได้เดินทางเข้ามา ณ ดินแดน Intania ประเทศแห่งเทคโนโลยีและสิ่งประดิษฐ์ เพื่อหาเทคโนโลยีแห่งยุค<br />เมื่อเหล่านักเดินทางมาถึงจึงได้ขอเข้าเฝ้าราชาของดินแดนแห่งนี้ ท่านได้สั่งให้เหล่านักเดินทางเข้าไปช่วยเหลือ พัฒนา และแก้ปัญหาต่าง ๆ ในพื้นที่ทั้ง 16 regions<br />โดยให้ไปรับภารกิจจาก ผู้ปกครองของแต่ละพื้นที่เพื่อแลกเปลี่ยนความรู้และวิทยาการของดินแดน Intania
         </Typography>
       </Box>
 
-      <ButtonBase
+      <Button
+        variant="contained"
         sx={{
           paddingX: "44px",
           paddingY: "10px",
+          width: "100%",
           backgroundColor: "#5B3722",
           borderRadius: "10px",
           filter: "drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.4))",
+          "&:hover": {
+            backgroundColor: "#472A1A",
+          },
         }}
+        endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', color: '#ffffff', stroke: '#ffffff', strokeWidth: 1, marginLeft: '4px' }}/>}
       >
-        <Typography sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 600 }}>
-          Scan QR Code to Check-in Booth {" >"}
+        <Typography sx={{ color: "#ffffff", fontFamily: 'var(--font-manrope)', fontSize: "16px", fontWeight: 700 }}>
+          Scan QR Code to Check-in Booth
         </Typography>
-      </ButtonBase>
+      </Button>
 
       <Stack spacing={2} sx={{ width: "100%", mt: 1 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Typography sx={{ color: "#5B3722", fontSize: "20px", fontWeight: 700 }}>กิจกรรมตอนนี้</Typography>
-          <ButtonBase>
-            <Typography sx={{ color: "#5B3722", fontSize: "14px", fontWeight: 500 }}>ดูเพิ่มเติม {" >"}</Typography>
-          </ButtonBase>
+          <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "20px", fontWeight: 700 }}>กิจกรรมตอนนี้</Typography>
+          <Button variant="text" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
+            sx={{
+              color: '#5B3722',
+              fontFamily: 'var(--font-noto-thai)',
+              fontSize: '14px',
+              fontWeight: 700,
+              width: '92px',
+              height: '36px',
+              padding: '0 8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              whiteSpace: 'nowrap',
+              '&:focus': {
+                outline: 'none',
+                boxShadow: '0 0 0 2px #5B3722',
+              },
+            }}
+          >
+            ดูเพิ่มเติม
+          </Button>
         </Box>
         <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1, scrollbarWidth: "none", "&::-webkit-scrollbar": { display: "none" } }}>
           {activityData?.activities?.map((activity) => (
@@ -102,10 +128,28 @@ export default function HomeView() {
 
       <Stack spacing={2} sx={{ width: "100%", mt: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Typography sx={{ color: "#5B3722", fontSize: "20px", fontWeight: 700 }}>คอลเลกชัน</Typography>
-          <ButtonBase>
-            <Typography sx={{ color: "#5B3722", fontSize: "14px", fontWeight: 500 }}>ดูเพิ่มเติม {" >"}</Typography>
-          </ButtonBase>
+          <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "20px", fontWeight: 700 }}>คอลเลกชัน</Typography>
+          <Button variant="text" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
+            sx={{
+              color: '#5B3722',
+              fontFamily: 'var(--font-noto-thai)',
+              fontSize: '14px',
+              fontWeight: 700,
+              width: '92px',
+              height: '36px',
+              padding: '0 8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              whiteSpace: 'nowrap',
+              '&:focus': {
+                outline: 'none',
+                boxShadow: '0 0 0 2px #5B3722',
+              },
+            }}
+          >
+            ดูเพิ่มเติม
+          </Button>
         </Box>
         <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1, scrollbarWidth: "none", "&::-webkit-scrollbar": { display: "none" } }}>
           {collections.map((item, index) => (
@@ -116,14 +160,30 @@ export default function HomeView() {
 
       <Stack spacing={2} sx={{ width: "100%", mt: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Typography sx={{ color: "#5B3722", fontSize: "20px", fontWeight: 700 }}>
-            Workshop ที่น่าสนใจ
+          <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "20px", fontWeight: 700 }}>
+            เวิร์กช็อป
           </Typography>
-          <ButtonBase>
-            <Typography sx={{ color: "#5B3722", fontSize: "14px", fontWeight: 500 }}>
-              ดูเพิ่มเติม {" >"}
-            </Typography>
-          </ButtonBase>
+          <Button variant="text" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
+            sx={{
+              color: '#5B3722',
+              fontFamily: 'var(--font-noto-thai)',
+              fontSize: '14px',
+              fontWeight: 700,
+              width: '92px',
+              height: '36px',
+              padding: '0 8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              whiteSpace: 'nowrap',
+              '&:focus': {
+                outline: 'none',
+                boxShadow: '0 0 0 2px #5B3722',
+              },
+            }}
+          >
+            ดูเพิ่มเติม
+          </Button>
         </Box>
         <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1, scrollbarWidth: "none", "&::-webkit-scrollbar": { display: "none" }}}>
           {workshopData?.workshops?.map((workshop) => (
@@ -134,15 +194,19 @@ export default function HomeView() {
         </Box>
       </Stack>
 
-      <Typography sx={{ color: '#5B3722', fontSize: '24px', fontWeight: 700, width: '100%' }}>
+      <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "20px", fontWeight: 700, width: '100%' }}>
         Quick Info
       </Typography>
       <Grid container spacing={2}>
         {QUICK_INFO.map((info) => (
           <Grid key={info.label} size={6}>
-            <ButtonBase sx={{ width: '100%', backgroundColor: '#5B3722', borderRadius: '10px', padding: '10px', boxShadow: "0px 2px 3px rgba(0, 0, 0, 0.4)" }}>
-              <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>{info.label}</Typography>
-            </ButtonBase>
+            <Button variant="contained" sx={{ width: '100%', backgroundColor: '#5B3722', borderRadius: '10px', padding: '10px', boxShadow: "0px 2px 3px rgba(0, 0, 0, 0.4)",
+              "&:hover": {
+                backgroundColor: "#472A1A",
+              },
+            }}>
+              <Typography sx={{ color: "#ffffff", fontFamily: 'var(--font-noto-thai)', fontSize: "14px", fontWeight: 700  }}>{info.label}</Typography>
+            </Button>
           </Grid>
         ))}
       </Grid>

@@ -10,20 +10,20 @@ export default function CollectionCard({ label, current, total }: CollectionCard
   return (
     <Box
       sx={{
-        minWidth: "140px",
-        backgroundColor: "#F9F5F0",
+        minWidth: "108px",
+        backgroundColor: "#F8F3E8",
         borderRadius: "15px",
         padding: "16px",
-        boxShadow: "0px 4px 3px rgba(0, 0, 0, 0.4)",
+        boxShadow: "0px 4px 3px rgba(0, 0, 0, 0.3)",
         display: "flex",
         flexDirection: "column",
         gap: 1,
       }}
     >
-      <Typography sx={{ color: "#5B3722", fontSize: "18px", fontWeight: 700 }}>
+      <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "16px", fontWeight: 500 }}>
         {label}
       </Typography>
-      <Typography sx={{ color: "#6A7E8F", fontSize: "16px", fontWeight: 500 }}>
+      <Typography sx={{ color: "#637381", fontFamily: 'var(--font-noto-thai)', fontSize: "14px", fontWeight: 500 }}>
         {current}/{total} Stamps
       </Typography>
       <Box
