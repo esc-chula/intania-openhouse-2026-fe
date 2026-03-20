@@ -1,5 +1,5 @@
 "use client";
-import { Box, Stack, Typography, ButtonBase } from "@mui/material";
+import { Box, Stack, Typography, CircularProgress } from "@mui/material";
 import { useState, useRef } from "react";
 import { WorkshopActyCard, CardItem } from "@/components/workshop-acty-card"
 import { UserProfileCard } from "@/components/user-profile-card"
@@ -41,16 +41,56 @@ export default function ProfileView() {
         userStampsQueryKeys.meOptions()
     );
 
+
     if (isLoading) {
-        return <div>กำลังโหลดข้อมูลโปรไฟล์</div>;
+        return (
+            <Box
+                sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100dvh",
+                background: "url('/background/bg-landing.png')",
+                backgroundSize: "cover",
+                }}
+            >
+                <CircularProgress color="primary" />
+            </Box>
+        );
     }
 
     if (isError || !user) {
-        return <div>กรุณาเข้าสู่ระบบ</div>;
+        return (
+            <Box
+                sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100dvh",
+                background: "url('/background/bg-landing.png')",
+                backgroundSize: "cover",
+                }}
+            >
+                กรุณาเข้าสู่ระบบ
+            </Box>
+        );
     }
 
     if (isBookingError || !user || isStampError) {
-        return <div>เกิดความผิดพลาด</div>;
+       return (
+            <Box
+                sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100dvh",
+                background: "url('/background/bg-landing.png')",
+                backgroundSize: "cover",
+                }}
+            >
+                เกิดความผิดพลาด
+            </Box>
+        );
     }
 
     const UserData = {
