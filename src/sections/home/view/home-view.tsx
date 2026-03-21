@@ -10,13 +10,14 @@ import CollectionCard from "../card/collectionCard";
 import WorkshopCard from "../card/workshopCard";
 import { Button } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Link from "next/link";
 
 const USER_FIELDS: string[] = ["first_name", "last_name", "email"];
 const QUICK_INFO = [
-  { label: 'ข้อมูลภาควิชาและชมรม' },
-  { label: 'แผนผังคณะ' },
-  { label: 'ข้อมูลการเดินทาง' },
-  { label: 'Lost & Found' },
+  { label: 'ข้อมูลภาควิชาและชมรม', href: '/quick-info/department-and-club' },
+  { label: 'แผนผังคณะ', href: '/quick-info/map' },
+  { label: 'ข้อมูลการเดินทาง', href: '/quick-info/travel-direction' },
+  { label: 'Lost & Found', href: '/quick-info/lost-and-found' },
 ];
 
 export default function HomeView() {
@@ -76,6 +77,8 @@ export default function HomeView() {
 
       <Button
         variant="contained"
+        component={Link}
+        href="/checkin"
         sx={{
           paddingX: "44px",
           paddingY: "10px",
@@ -97,7 +100,7 @@ export default function HomeView() {
       <Stack spacing={2} sx={{ width: "100%", mt: 1 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "20px", fontWeight: 700 }}>กิจกรรมตอนนี้</Typography>
-          <Button variant="text" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
+          <Button variant="text" component={Link} href="/workshop-activities" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
             sx={{
               color: '#5B3722',
               fontFamily: 'var(--font-noto-thai)',
@@ -129,7 +132,7 @@ export default function HomeView() {
       <Stack spacing={2} sx={{ width: "100%", mt: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "20px", fontWeight: 700 }}>คอลเลกชัน</Typography>
-          <Button variant="text" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
+          <Button variant="text" component={Link} href="/stamp" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
             sx={{
               color: '#5B3722',
               fontFamily: 'var(--font-noto-thai)',
@@ -163,7 +166,7 @@ export default function HomeView() {
           <Typography sx={{ color: "#5B3722", fontFamily: 'var(--font-noto-thai)', fontSize: "20px", fontWeight: 700 }}>
             เวิร์กช็อป
           </Typography>
-          <Button variant="text" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
+          <Button variant="text" component={Link} href="/workshop-activities" endIcon={ <ArrowForwardIosIcon sx={{ fontSize: '14px !important', stroke: '#5B3722', strokeWidth: 1, marginLeft: '4px' }}/>}
             sx={{
               color: '#5B3722',
               fontFamily: 'var(--font-noto-thai)',
@@ -200,7 +203,7 @@ export default function HomeView() {
       <Grid container spacing={2}>
         {QUICK_INFO.map((info) => (
           <Grid key={info.label} size={6}>
-            <Button variant="contained" sx={{ width: '100%', backgroundColor: '#5B3722', borderRadius: '10px', padding: '10px', boxShadow: "0px 2px 3px rgba(0, 0, 0, 0.4)",
+            <Button variant="contained" component={Link} href={info.href} sx={{ width: '100%', backgroundColor: '#5B3722', borderRadius: '10px', padding: '10px', boxShadow: "0px 2px 3px rgba(0, 0, 0, 0.4)",
               "&:hover": {
                 backgroundColor: "#472A1A",
               },
