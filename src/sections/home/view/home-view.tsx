@@ -65,6 +65,7 @@ export default function HomeView() {
         backgroundSize: "cover",
         gap: 1.5,
         padding: "25px 25px",
+        paddingBottom: "80px",
       }}
     >
       <Box

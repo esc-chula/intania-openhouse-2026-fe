@@ -107,7 +107,11 @@ function FormView() {
   };
 
   const handleBackStep = () => {
-    setStep((prev) => Math.max(1, prev - 1));
+    if (step === 1) {
+      router.back();
+      return;
+    }
+    setStep((prev) => prev - 1);
   };
 
   const onSubmit = async (data: FormFirstStepValues) => {

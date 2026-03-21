@@ -82,6 +82,7 @@ export default function WorkshopAndActivitiesView() {
         backgroundSize: "cover",
         gap: 2,
         padding: "25px 25px",
+        paddingBottom: "80px",
       }}
     >
       <Box
