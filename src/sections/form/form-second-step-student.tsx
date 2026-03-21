@@ -57,7 +57,7 @@ export function FormSecondStepStudent() {
         <Controller
           name="education_level"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Autocomplete
               {...field}
               value={field.value ?? null}
@@ -73,7 +73,12 @@ export function FormSecondStepStudent() {
                 );
               }}
               renderInput={(params) => (
-                <TextField {...params} label="ระดับชั้นปีการศึกษา 2568" />
+                <TextField
+                  {...params}
+                  label="ระดับชั้นปีการศึกษา 2568"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
               )}
             />
           )}
@@ -83,13 +88,15 @@ export function FormSecondStepStudent() {
           <Controller
             name="other_education_level"
             control={control}
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <TextField
                 {...field}
                 value={field.value ?? ""}
                 label="ระดับชั้นอื่นๆ (โปรดระบุ)"
                 variant="outlined"
                 fullWidth
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
               />
             )}
           />
@@ -98,13 +105,15 @@ export function FormSecondStepStudent() {
         <Controller
           name="school_name"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label='ชื่อโรงเรียน (ไม่ต้องกรอกคำว่า "โรงเรียน")'
               variant="outlined"
               fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
@@ -112,7 +121,7 @@ export function FormSecondStepStudent() {
         <Controller
           name="school_province"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Autocomplete
               {...field}
               value={field.value ?? null}
@@ -128,7 +137,12 @@ export function FormSecondStepStudent() {
                 );
               }}
               renderInput={(params) => (
-                <TextField {...params} label="จังหวัดของโรงเรียน" />
+                <TextField
+                  {...params}
+                  label="จังหวัดของโรงเรียน"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
               )}
             />
           )}
@@ -137,7 +151,7 @@ export function FormSecondStepStudent() {
         <Controller
           name="study_plan"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Autocomplete
               {...field}
               value={field.value ?? null}
@@ -153,7 +167,12 @@ export function FormSecondStepStudent() {
                 );
               }}
               renderInput={(params) => (
-                <TextField {...params} label="แผนการเรียน/สาย" />
+                <TextField
+                  {...params}
+                  label="แผนการเรียน/สาย"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
               )}
             />
           )}
@@ -163,13 +182,15 @@ export function FormSecondStepStudent() {
           <Controller
             name="other_study_plan"
             control={control}
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <TextField
                 {...field}
                 value={field.value ?? ""}
                 label="แผนการเรียนอื่นๆ (โปรดระบุ)"
                 variant="outlined"
                 fullWidth
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
               />
             )}
           />
@@ -178,7 +199,7 @@ export function FormSecondStepStudent() {
         <Controller
           name="interested_major"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Autocomplete
               {...field}
               value={field.value ?? null}
@@ -194,7 +215,12 @@ export function FormSecondStepStudent() {
                 );
               }}
               renderInput={(params) => (
-                <TextField {...params} label="ภาควิชาที่สนใจ" />
+                <TextField
+                  {...params}
+                  label="ภาควิชาที่สนใจ"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
               )}
             />
           )}

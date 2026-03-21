@@ -41,7 +41,7 @@ export function FormSecondStepOuterUniversity() {
         <Controller
           name="year_level"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Autocomplete
               {...field}
               value={field.value ?? null}
@@ -56,7 +56,14 @@ export function FormSecondStepOuterUniversity() {
                   </li>
                 );
               }}
-              renderInput={(params) => <TextField {...params} label="ชั้นปี" />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="ชั้นปี"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
+              )}
             />
           )}
         />
@@ -65,12 +72,14 @@ export function FormSecondStepOuterUniversity() {
           <Controller
             name="other_year"
             control={control}
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <TextField
                 {...field}
                 value={field.value ?? ""}
                 label="ชั้นปีอื่นๆ (โปรดระบุ)"
                 fullWidth
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
               />
             )}
           />
@@ -79,13 +88,15 @@ export function FormSecondStepOuterUniversity() {
         <Controller
           name="faculty"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label="คณะ"
               variant="outlined"
               fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
@@ -93,13 +104,15 @@ export function FormSecondStepOuterUniversity() {
         <Controller
           name="university"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label="มหาวิทยาลัย"
               variant="outlined"
               fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
