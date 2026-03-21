@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, Avatar } from "@mui/material";
 
 export interface User {
   name: string,
@@ -43,13 +43,14 @@ export function UserProfileCard({ user }: UserProfileCardProps) {
         > 
             <Box 
                 sx={{
-                    width: "20cqw",
-                    height: "20cqw",
-                    borderRadius: "50%",
+                    width: "70px",
+                    height: "70px",
+                    borderRadius: "100px",
                     overflow: "hidden",
                 }}>
-                <Box
-                    component="img"
+                <Avatar
+                    alt="Avatar"
+                    variant="circular"
                     src={user.image}
                     sx={{
                         width: "100%",
@@ -58,22 +59,22 @@ export function UserProfileCard({ user }: UserProfileCardProps) {
                     }}
                 />
             </Box>
-            <Stack sx={{alignItems: "center"}}>
-                <Typography sx={{ fontSize: "6cqw", fontFamily: "inherit", color: "#5B3722" }}>
+            <Stack sx={{alignItems: "center", mt: -1}}>
+                <Typography sx={{ fontFamily: "var(--font-noto-thai)", fontSize: "20px", fontWeight: 500, color: "#5B3722" }}>
                     {user.name}
                 </Typography>
-                <Typography sx={{ fontSize: "5cqw", fontFamily: "inherit", color: "#5B3722" }}>
+                <Typography sx={{ fontFamily: "var(--font-noto-thai)", fontSize: "16px", fontWeight: 500, color: "#5B3722" }}>
                     {user.email}
                 </Typography>
             </Stack>
             <Stack direction="row" spacing={2} sx={{alignItems: "center"}}>
-                <Box sx={{ border: "1.5px solid #5B3722", borderRadius: "12px", p: "5px 15px", alignItems: "center", display: "flex", flexDirection: "column" }}>
-                    <Typography sx={{ fontSize: "5cqw", fontWeight: 700, color: "#5B3722" }}>{String(user.bookingCount)}</Typography>
-                    <Typography sx={{ fontSize: "3.5cqw", color: "#5B3722" }}>Bookings</Typography>
+                <Box sx={{ width: "88px", height: "56px", border: "1.5px solid #5B3722", borderRadius: "8px", p: "4px 8px", alignItems: "center", display: "flex", flexDirection: "column" }}>
+                    <Typography sx={{ fontFamily: "var(--font-manrope)", fontSize: "16px", fontWeight: 700, color: "#5B3722" }}>{String(user.bookingCount)}</Typography>
+                    <Typography sx={{ fontFamily: "var(--font-manrope)", fontSize: "16px", fontWeight: 700, color: "#5B3722" }}>Bookings</Typography>
                 </Box>
-                <Box sx={{ border: "1.5px solid #5B3722", borderRadius: "12px", p: "5px 15px", alignItems: "center", display: "flex", flexDirection: "column" }}>
-                    <Typography sx={{ fontSize: "5cqw", fontWeight: 700, color: "#5B3722" }}>{String(user.stampCount)}</Typography>
-                    <Typography sx={{ fontSize: "3.5cqw", color: "#5B3722" }}>Stamps</Typography>
+                <Box sx={{ width: "76px", height: "56px", border: "1.5px solid #5B3722", borderRadius: "8px", p: "4px 8px", alignItems: "center", display: "flex", flexDirection: "column" }}>
+                    <Typography sx={{ fontFamily: "var(--font-manrope)", fontSize: "16px", fontWeight: 700, color: "#5B3722" }}>{String(user.stampCount)}</Typography>
+                    <Typography sx={{ fontFamily: "var(--font-manrope)", fontSize: "16px", fontWeight: 700, color: "#5B3722" }}>Stamps</Typography>
                 </Box>
             </Stack>
         </Box>

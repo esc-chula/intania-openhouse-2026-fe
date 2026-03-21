@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const registered = await checkRegistration();
 
           if (registered) {
-            router.push(returnUrl || "/");
+            router.push(returnUrl || "/profile");
           } else {
             router.push("/terms-and-conditions");
           }
