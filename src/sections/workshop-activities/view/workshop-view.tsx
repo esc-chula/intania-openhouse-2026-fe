@@ -214,7 +214,7 @@ export default function WorkshopView() {
           >
             <Box
               component="img"
-              src="/example.png"
+              src={`/assets${workshop.image}.jpg`}
               sx={{
                 width: "75%",
                 objectFit: "cover",
@@ -222,31 +222,34 @@ export default function WorkshopView() {
                 alignSelf: "center",
               }}
             />
-            <Box sx={{display: "flex"}}>
-              <Stack marginLeft={4} marginRight={1}>
-                <Typography variant="body2">สถานที่:</Typography>
-                <Typography variant="body2">วันที่:</Typography>
-                <Typography variant="body2">เวลา:</Typography>
-                <Typography variant="body2">ภาควิชา:</Typography>
-                <Typography variant="body2">ลงทะเบียน:</Typography>
-              </Stack>
-              <Stack>
-                <Typography variant="body2">{workshop.location}</Typography>
-                <Typography variant="body2">
-                  {dayjs
-                    .utc(workshop.event_date)
-                    .tz("Asia/Bangkok")
-                    .format("D MMMM BBBB")}
-                </Typography>
-                <Typography variant="body2">
-                  {dayjs(workshop.start_time).format("HH:mm")} น. -&nbsp;
-                  {dayjs(workshop.end_time).format("HH:mm")} น.
-                </Typography>
-                <Typography variant="body2">{workshop.affiliation}</Typography>
-                <Typography variant="body2">
-                  {workshop.registered_count} / {workshop.total_seats}
-                </Typography>
-              </Stack>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "max-content 1fr",
+                columnGap: 1,
+                marginLeft: 4,
+              }}
+            >
+              <Typography variant="body2">สถานที่:</Typography>
+              <Typography variant="body2">{workshop.location}</Typography>
+              <Typography variant="body2">วันที่:</Typography>
+              <Typography variant="body2">
+                {dayjs
+                  .utc(workshop.event_date)
+                  .tz("Asia/Bangkok")
+                  .format("D MMMM BBBB")}
+              </Typography>
+              <Typography variant="body2">เวลา:</Typography>
+              <Typography variant="body2">
+                {dayjs.utc(workshop.start_time).format("HH:mm")} น. -{" "}
+                {dayjs.utc(workshop.end_time).format("HH:mm")} น.
+              </Typography>
+              <Typography variant="body2">ภาควิชา:</Typography>
+              <Typography variant="body2">{workshop.affiliation}</Typography>
+              <Typography variant="body2">ลงทะเบียน:</Typography>
+              <Typography variant="body2">
+                {workshop.registered_count ?? 0} / {workshop.total_seats}
+              </Typography>
             </Box>
             <Typography variant="caption" marginX={4}>
               {workshop.description}

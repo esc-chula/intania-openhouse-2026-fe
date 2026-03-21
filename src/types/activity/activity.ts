@@ -13,6 +13,7 @@ export interface Activity {
 export interface GetActivityResponse {
   id: number;
   title: string;
+  event_date: string;
   start_time: string;
   end_time: string;
   building_name?: string;
@@ -21,4 +22,5 @@ export interface GetActivityResponse {
   description: string;
   image?: string;
   is_happening: boolean;
+  link?: string;
 }
