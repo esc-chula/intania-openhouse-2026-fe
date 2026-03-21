@@ -1,23 +1,16 @@
 import { useMutation, type UseMutationResult } from "@tanstack/react-query";
 import { ky } from "@/services/ky";
+import { CheckInRequest, CheckinResponse } from "@/types/check-in/check-in";
 
-export interface CheckInRequest {
-  code: string;
-}
-
-export interface CheckInResult {
-  type: "workshop" | "booth";
-  name: string;
-}
-
-async function postCheckIn(payload: CheckInRequest): Promise<void> {
-  await ky.post("check-in", {
+async function postCheckIn(payload: CheckInRequest): Promise<CheckinResponse> {
+  const res = await ky.post("check-in", {
     json: { code: payload.code },
-  });
+  }).json<CheckinResponse>();
+  return res;
 }
 
-function useCheckInMutation(): UseMutationResult<void, Error, CheckInRequest> {
-  return useMutation<void, Error, CheckInRequest>({
+function useCheckInMutation(): UseMutationResult<CheckinResponse, Error, CheckInRequest> {
+  return useMutation<CheckinResponse, Error, CheckInRequest>({
     mutationFn: postCheckIn,
   });
 }

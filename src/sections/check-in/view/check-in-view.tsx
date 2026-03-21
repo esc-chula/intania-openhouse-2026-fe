@@ -1,14 +1,12 @@
 "use client";
 
 import { BackButton } from "@/components/back-button";
-import { Box, ButtonBase, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import CheckIn from "../check-in";
-import { color } from "@/theme/core/colors";
-import { typography } from "@/theme/core";
+
 import { useCheckInMutation } from "@/services/check-in/mutation/use-check-in";
-import { useRouter } from "next/navigation";
 import {
   SnackbarAlert,
   type SnackbarSeverity,
@@ -26,7 +24,6 @@ export default function CheckInView() {
     message: "",
     severity: "error",
   });
-  const router = useRouter();
 
   const { mutate: doCheckIn, isPending } = useCheckInMutation();
 
@@ -114,20 +111,14 @@ export default function CheckInView() {
                 onScan={(result) => {
                   if (!result || result.length === 0 || isPending) return;
                   const raw = result[0].rawValue;
-                  let displayName = "บูธ";
-                  if (raw.startsWith("W-")) {
-                    displayName = "เวิร์คช็อป";
-                  } else if (raw.startsWith("B-")) {
-                    displayName = "บูธ";
-                  }
                   const parsed = JSON.parse(raw);
                   const code = parsed.code;
 
                   doCheckIn(
                     { code },
                     {
-                      onSuccess: () => {
-                        setCheckInName(displayName);
+                      onSuccess: (data) => {
+                        setCheckInName(data.name);
                         setScanning(false);
                       },
                       onError: () => {
@@ -149,24 +140,6 @@ export default function CheckInView() {
               />
             </Box>
           )}
-          <ButtonBase
-            onClick={() => router.push("/")}
-            sx={{
-              paddingX: "22px",
-              paddingY: 1,
-              backgroundColor: color.PRIMARY_MAIN,
-              borderRadius: 1,
-              alignSelf: "center",
-              boxShadow:
-                "0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.20)",
-              color: color.TEXT_WHITE,
-              fontSize: 16,
-              fontWeight: typography.fontWeightBold,
-              lineHeight: "24px",
-            }}
-          >
-            กลับสู่เมนูหลัก
-          </ButtonBase>
         </Box>
       </Box>
       <SnackbarAlert
