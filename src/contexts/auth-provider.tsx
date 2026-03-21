@@ -23,6 +23,8 @@ type AuthCtx = {
   user: User | null;
   loading: boolean;
   isRegistered: boolean;
+  acceptedTerms: boolean;
+  setAcceptedTerms: (v: boolean) => void;
   signInGoogle: (returnUrl?: string) => Promise<void>;
   signOutAll: () => Promise<void>;
   refreshRegistration: () => Promise<void>;
@@ -35,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isRegistered, setIsRegistered] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const auth = getFirebaseAuth();
 
   const checkRegistration = useCallback(async (): Promise<boolean> => {
@@ -77,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const registered = await checkRegistration();
 
           if (registered) {
-            router.push(returnUrl || "/profile");
+            router.push(returnUrl || "/home");
           } else {
             router.push("/terms-and-conditions");
           }
@@ -88,7 +91,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOutAll: async () => {
         await signOut(auth);
         setIsRegistered(false);
+        setAcceptedTerms(false);
       },
+      acceptedTerms,
+      setAcceptedTerms,
       refreshRegistration,
     }),
     [
@@ -96,6 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       loading,
       isRegistered,
+      acceptedTerms,
       router,
       checkRegistration,
       refreshRegistration,

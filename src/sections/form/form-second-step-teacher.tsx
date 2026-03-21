@@ -32,20 +32,22 @@ export function FormSecondStepTeacher() {
         <Controller
           name="school_name"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label="โรงเรียน"
               variant="outlined"
               fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
         <Controller
           name="school_province"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Autocomplete
               {...field}
               value={field.value ?? null}
@@ -61,7 +63,12 @@ export function FormSecondStepTeacher() {
                 );
               }}
               renderInput={(params) => (
-                <TextField {...params} label="จังหวัด" />
+                <TextField
+                  {...params}
+                  label="จังหวัด"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error?.message}
+                />
               )}
             />
           )}
@@ -69,13 +76,15 @@ export function FormSecondStepTeacher() {
         <Controller
           name="subject_taught"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label="วิชาที่สอน"
               variant="outlined"
               fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
