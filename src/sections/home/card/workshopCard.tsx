@@ -12,7 +12,7 @@ export default function WorkshopCard({ workshop }: { workshop: TWorkshopItem }) 
           width: "160px",
           backgroundColor: "#F8F3E8",
           borderRadius: "15px",
-          padding: "16px 20px",
+          padding: "16px 18px",
           boxShadow: "0px 4px 3px rgba(0, 0, 0, 0.3)",
           display: "flex",
           flexDirection: "column",
