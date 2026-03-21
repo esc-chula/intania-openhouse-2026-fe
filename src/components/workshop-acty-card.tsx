@@ -4,7 +4,7 @@ export interface StageItem {
   id: number;
   title: string;
   location: string;
-  date: string; // 👈 1. เพิ่มฟิลด์วันที่
+  date: string;
   time: string;
   status?: string;
   image?: string;

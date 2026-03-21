@@ -1,11 +1,17 @@
 export type TStamp = {
   id: number;
   name: string;
-  type: string;
   checked_in_at: string;
 };
 
 export type TGetUserStampsResponse = {
-  stamps: TStamp[] | null; 
+  club_stamp_count: number;
+  department_stamp_count: number;
+  exhibition_stamp_count: number;
+  
+  club_stamps: TStamp[] | null;
+  department_stamps: TStamp[] | null;
+  exhibition_stamps: TStamp[] | null;
+  
   total_count: number;
 };
