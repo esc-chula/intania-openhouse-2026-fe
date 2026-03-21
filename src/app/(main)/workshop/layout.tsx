@@ -3,7 +3,7 @@
 import React from "react";
 import { AuthGuard } from "@/components/auth-guard";
 
-export default function HomeLayout({
+export default function WorkshopLayout({
   children,
 }: {
   children: React.ReactNode;
