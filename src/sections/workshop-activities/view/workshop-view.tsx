@@ -56,9 +56,7 @@ export default function WorkshopView() {
     isError,
   } = useQuery(workshopQueryKeys.detailOptions(params.id, authLoading));
 
-  const { data: myBookings } = useQuery(
-    userBookingsQueryKeys.meOptions(),
-  );
+  const { data: myBookings } = useQuery(userBookingsQueryKeys.meOptions());
 
   const isReserved = (myBookings?.bookings ?? []).some(
     (b) => String(b.workshop_id) === String(params.id),
@@ -174,41 +172,25 @@ export default function WorkshopView() {
           <BackButton sx={{ alignSelf: "flex-start" }} />
           <Box
             sx={{
-              position: "relative",
-              width: "100%",
-              alignSelf: "center",
+              display: "flex",
+              backgroundColor: "#F8F3E8",
+              alignSelf: "stretch",
+              justifyContent: "center",
+              paddingX: 1.5,
+              paddingY: 1,
+              borderRadius: 1,
+              boxShadow:
+                "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
             }}
           >
-            <Box
-              component="img"
-              src="/banner/activity-banner.svg"
-              sx={{
-                width: "80%",
-                display: "block",
-                marginX: "auto",
-              }}
-            />
-            <Typography
-              variant="h5"
-              sx={{
-                position: "absolute",
-                top: "40%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: color.PRIMARY_MAIN,
-                textAlign: "center",
-                pointerEvents: "none",
-              }}
-            >
-              {workshop.name}
-            </Typography>
+            <Typography variant="h3">{workshop.name}</Typography>
           </Box>
           <Stack
             sx={{
               display: "flex",
+              alignSelf: "stretch",
               backgroundColor: "#F8F3E8",
               flexDirection: "column",
-              alignSelf: "center",
               paddingX: 2,
               paddingY: 3,
               gap: 2,
