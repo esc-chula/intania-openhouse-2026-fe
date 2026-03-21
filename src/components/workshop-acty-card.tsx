@@ -4,6 +4,7 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import "dayjs/locale/th";
+import Link from "next/link";
 
 import type { TActivityItem } from "@/types/activity/get-activities-list";
 import type { TWorkshopItem } from "@/types/workshop/get-workshops-list";
@@ -44,50 +45,106 @@ export function WorkshopActyCard({ item, mode }: WorkshopActyCardProps) {
   const title = isWorkshop(item) ? item.name : item.title;
   const location = formatLocation(item);
   const time = formatTime(item.start_time, item.end_time);
+  const href =
+    mode === "workshop" ? `/workshop/${item.id}` : `/activity/${item.id}`;
 
   return (
-    <Box
-      sx={{ position: "relative", width: "100%", containerType: "inline-size" }}
-    >
+    <Link href={href} style={{ textDecoration: "none", width: "100%" }}>
       <Box
-        component="img"
-        src={
-          mode === "workshop"
-            ? "/card/workshop-card.svg"
-            : "/card/acty-card.svg"
-        }
         sx={{
+          position: "relative",
           width: "100%",
-          display: "block",
-          objectFit: "contain",
-        }}
-      />
-
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          padding: "24px 56px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: 1,
+          containerType: "inline-size",
+          cursor: "pointer",
         }}
       >
         <Box
+          component="img"
+          src={
+            mode === "workshop"
+              ? "/card/workshop-card.svg"
+              : "/card/acty-card.svg"
+          }
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1.5,
             width: "100%",
+            display: "block",
+            objectFit: "contain",
+          }}
+        />
+
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            padding: "24px 56px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: 1,
           }}
         >
           <Box
             sx={{
-              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              gap: 1.5,
+              width: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+                msOverflowStyle: "none",
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": { display: "none" },
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "#5B3722",
+                  fontFamily: "var(--font-noto-thai)",
+                  fontSize: "24px",
+                  fontWeight: 700,
+                }}
+              >
+                {title}
+              </Typography>
+            </Box>
+
+            {!isWorkshop(item) && item.is_happening && (
+              <Box
+                sx={{
+                  flexShrink: 0,
+                  backgroundColor: "#D4EDDA",
+                  color: "#155724",
+                  padding: "4px 12px",
+                  borderRadius: "16px",
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  fontFamily: "var(--font-noto-thai)",
+                }}
+              >
+                ตอนนี้
+              </Box>
+            )}
+          </Box>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "max-content 1fr",
+              columnGap: "16px",
+              color: "#212B36",
+              fontFamily: "var(--font-noto-thai)",
+              fontSize: "16px",
+              fontWeight: 500,
+              width: "100%",
               overflowX: "auto",
               whiteSpace: "nowrap",
               msOverflowStyle: "none",
@@ -96,152 +153,108 @@ export function WorkshopActyCard({ item, mode }: WorkshopActyCardProps) {
             }}
           >
             <Typography
-              variant="h5"
               sx={{
-                color: "#5B3722",
-                fontFamily: "var(--font-noto-thai)",
-                fontSize: "24px",
-                fontWeight: 700,
+                fontFamily: "inherit",
+                fontSize: "inherit",
+                fontWeight: "inherit",
               }}
             >
-              {title}
+              สถานที่:
             </Typography>
-          </Box>
-
-          {!isWorkshop(item) && item.is_happening && (
-            <Box
+            <Typography
               sx={{
-                flexShrink: 0,
-                backgroundColor: "#D4EDDA",
-                color: "#155724",
-                padding: "4px 12px",
-                borderRadius: "16px",
-                fontSize: "14px",
-                fontWeight: 700,
-                fontFamily: "var(--font-noto-thai)",
+                fontFamily: "inherit",
+                fontSize: "inherit",
+                fontWeight: "inherit",
               }}
             >
-              ตอนนี้
-            </Box>
-          )}
-        </Box>
+              {location}
+            </Typography>
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "max-content 1fr",
-            columnGap: "16px",
-            color: "#212B36",
-            fontFamily: "var(--font-noto-thai)",
-            fontSize: "16px",
-            fontWeight: 500,
-            width: "100%",
-            overflowX: "auto",
-            whiteSpace: "nowrap",
-            msOverflowStyle: "none",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": { display: "none" },
-          }}
-        >
-          <Typography
-            sx={{
-              fontFamily: "inherit",
-              fontSize: "inherit",
-              fontWeight: "inherit",
-            }}
-          >
-            สถานที่:
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: "inherit",
-              fontSize: "inherit",
-              fontWeight: "inherit",
-            }}
-          >
-            {location}
-          </Typography>
+            <Typography
+              sx={{
+                fontFamily: "inherit",
+                fontSize: "inherit",
+                fontWeight: "inherit",
+              }}
+            >
+              วันที่:
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "inherit",
+                fontSize: "inherit",
+                fontWeight: "inherit",
+              }}
+            >
+              {dayjs
+                .utc(item.event_date)
+                .tz("Asia/Bangkok")
+                .format("D MMMM BBBB")}
+            </Typography>
 
-          <Typography
-            sx={{
-              fontFamily: "inherit",
-              fontSize: "inherit",
-              fontWeight: "inherit",
-            }}
-          >
-            วันที่:
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: "inherit",
-              fontSize: "inherit",
-              fontWeight: "inherit",
-            }}
-          >
-            {dayjs.utc(item.event_date).tz("Asia/Bangkok").format("D MMMM BBBB")}
-          </Typography>
+            <Typography
+              sx={{
+                fontFamily: "inherit",
+                fontSize: "inherit",
+                fontWeight: "inherit",
+              }}
+            >
+              เวลา:
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "inherit",
+                fontSize: "inherit",
+                fontWeight: "inherit",
+              }}
+            >
+              {time}
+            </Typography>
+            {isWorkshop(item) && (
+              <>
+                <Typography
+                  sx={{
+                    fontFamily: "inherit",
+                    fontSize: "inherit",
+                    fontWeight: "inherit",
+                  }}
+                >
+                  ภาควิชา:
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: "inherit",
+                    fontSize: "inherit",
+                    fontWeight: "inherit",
+                  }}
+                >
+                  {item.affiliation}
+                </Typography>
 
-          <Typography
-            sx={{
-              fontFamily: "inherit",
-              fontSize: "inherit",
-              fontWeight: "inherit",
-            }}
-          >
-            เวลา:
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: "inherit",
-              fontSize: "inherit",
-              fontWeight: "inherit",
-            }}
-          >
-            {time}
-          </Typography>
-          {isWorkshop(item) && (
-            <>
-              <Typography
-                sx={{
-                  fontFamily: "inherit",
-                  fontSize: "inherit",
-                  fontWeight: "inherit",
-                }}
-              >
-                ภาควิชา:
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "inherit",
-                  fontSize: "inherit",
-                  fontWeight: "inherit",
-                }}
-              >
-                {item.affiliation}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "inherit",
-                  fontSize: "inherit",
-                  fontWeight: "inherit",
-                }}
-              >
-                ลงทะเบียน:
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "inherit",
-                  fontSize: "inherit",
-                  fontWeight: "inherit",
-                }}
-              >
-                {item.registered_count}/{item.total_seats} คน
-              </Typography>
-            </>
-          )}
+                <Typography
+                  sx={{
+                    fontFamily: "inherit",
+                    fontSize: "inherit",
+                    fontWeight: "inherit",
+                  }}
+                >
+                  ลงทะเบียน:
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: "inherit",
+                    fontSize: "inherit",
+                    fontWeight: "inherit",
+                  }}
+                >
+                  {item.registered_count}/{item.total_seats} คน
+                </Typography>
+              </>
+            )}
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </Link>
   );
 }
