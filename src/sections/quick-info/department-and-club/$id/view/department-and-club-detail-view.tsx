@@ -65,7 +65,7 @@ export default function DepartmentAndClubView({ id }: Props) {
 
       <Paper elevation={3} sx={{ backgroundColor: "#F8F3E8", padding: 2 }}>
         <Typography
-          variant="body1"
+          variant="body2"
           sx={{
             color: "#5B3722",
             whiteSpace: "pre-wrap",
@@ -114,7 +114,7 @@ export default function DepartmentAndClubView({ id }: Props) {
 
           <Paper elevation={3} sx={{ backgroundColor: "#F8F3E8", padding: 2 }}>
             <Typography
-              variant="body1"
+              variant="body2"
               sx={{
                 color: "#5B3722",
                 whiteSpace: "pre-wrap",
