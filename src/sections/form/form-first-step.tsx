@@ -24,7 +24,7 @@ import {
 } from "@/sections/form/constants/form-options";
 
 const activitiesOptions = [
-  " Workshop (เฉพาะนักเรียน)",
+  "Workshop (เฉพาะนักเรียนหรือนิสิต)",
   "Showcase & Sharing Session",
   "Innovation",
   "Club & CSR",

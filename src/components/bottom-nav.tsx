@@ -9,7 +9,7 @@ const NAV_ITEMS = [
     label: "Home",
     href: "/home",
     icon: "/icon/nav/home-outline.svg",
-    activeIcon: "/icon/nav/home-outline.svg",
+    activeIcon: "/icon/nav/home-solid.svg",
   },
   {
     label: "Information",
@@ -39,6 +39,14 @@ const NAV_ITEMS = [
 
 const HIDDEN_PATHS = ["/terms-and-conditions", "/form", "/checkin", "/"];
 
+export function shouldShowBottomNav(pathname: string): boolean {
+  return (
+    !HIDDEN_PATHS.includes(pathname) &&
+    !pathname.startsWith("/activity/") &&
+    !pathname.startsWith("/workshop/")
+  );
+}
+
 export function BottomNav() {
   const pathname = usePathname();
 
@@ -51,8 +59,6 @@ export function BottomNav() {
 
   return (
     <>
-      {/* Spacer to prevent content from being hidden behind the fixed navbar */}
-      <Box sx={{ height: 72, flexShrink: 0 }} />
       <Box
         sx={{
           display: "inline-flex",
