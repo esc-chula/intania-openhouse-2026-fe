@@ -30,10 +30,7 @@ function formatLocation(item: CardItem): string {
   if (isWorkshop(item)) {
     return item.location;
   }
-  const parts = [item.building_name, item.floor, item.room_name].filter(
-    Boolean,
-  );
-  return parts.join(" ");
+  return item.building_name || "";
 }
 
 export interface WorkshopActyCardProps {
