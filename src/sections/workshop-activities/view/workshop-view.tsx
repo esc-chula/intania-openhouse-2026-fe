@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { workshopQueryKeys } from "@/services/workshop/query/workshop-query";
+import { userBookingsQueryKeys } from "@/services/user/query/user-booking-query";
 import { useAuth } from "@/contexts/auth-provider";
 import { BackButton } from "@/components/back-button";
 import {
@@ -36,7 +37,6 @@ dayjs.locale("th");
 export default function WorkshopView() {
   const params = useParams<{ id: string }>();
   const { loading: authLoading } = useAuth();
-  const [reserve, setReserve] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [pendingAction, setPendingAction] = useState<boolean | null>(null);
   const [snackbar, setSnackbar] = useState<{
@@ -56,6 +56,14 @@ export default function WorkshopView() {
     isError,
   } = useQuery(workshopQueryKeys.detailOptions(params.id, authLoading));
 
+  const { data: myBookings } = useQuery(
+    userBookingsQueryKeys.meOptions(),
+  );
+
+  const isReserved = (myBookings?.bookings ?? []).some(
+    (b) => String(b.workshop_id) === String(params.id),
+  );
+
   const handleButtonClick = (action: boolean) => {
     setPendingAction(action);
     setDialogOpen(true);
@@ -65,7 +73,6 @@ export default function WorkshopView() {
     if (pendingAction === true) {
       bookWorkshop(params.id, {
         onSuccess: () => {
-          setReserve(true);
           setDialogOpen(false);
           setSnackbar({
             open: true,
@@ -85,7 +92,6 @@ export default function WorkshopView() {
     } else if (pendingAction === false) {
       cancelWorkshop(params.id, {
         onSuccess: () => {
-          setReserve(false);
           setDialogOpen(false);
           setSnackbar({
             open: true,
@@ -255,7 +261,7 @@ export default function WorkshopView() {
               {workshop.description}
             </Typography>
           </Stack>
-          {!reserve ? (
+          {!isReserved ? (
             <Box
               component="img"
               src="/button/reserve-button.svg"
