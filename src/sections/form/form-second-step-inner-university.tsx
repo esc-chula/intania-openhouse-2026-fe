@@ -25,13 +25,15 @@ export function FormSecondStepInnerUniversity() {
         <Controller
           name="intania_generation"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <TextField
               {...field}
               value={field.value ?? ""}
               label="รุ่น (เช่น วศ.25XX)"
               variant="outlined"
               fullWidth
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
             />
           )}
         />
