@@ -26,6 +26,7 @@ function TravelDirectionView() {
         height: "100dvh",
         overflow: "scroll",
         padding: "35px 16px",
+        paddingBottom: "80px",
         gap: 3,
         background: "url('/background/bg-landing.png')",
         backgroundRepeat: "no-repeat",

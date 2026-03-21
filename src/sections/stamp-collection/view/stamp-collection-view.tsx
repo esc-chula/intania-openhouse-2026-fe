@@ -129,6 +129,7 @@ export default function StampCollectionView() {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           padding: 2.5,
+          paddingBottom: "80px",
           position: "relative",
           gap: 2,
         }}
