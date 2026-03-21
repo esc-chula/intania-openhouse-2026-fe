@@ -1,0 +1,26 @@
+export interface Activity {
+  id: number;
+  title: string;
+  description: string;
+  start_time: string;
+  end_time: string;
+  building_name?: string;
+  floor?: string;
+  room_name?: string;
+  image?: string;
+}
+
+export interface GetActivityResponse {
+  id: number;
+  title: string;
+  event_date: string;
+  start_time: string;
+  end_time: string;
+  building_name?: string;
+  floor?: string;
+  room_name?: string;
+  description: string;
+  image?: string;
+  is_happening: boolean;
+  link?: string;
+}

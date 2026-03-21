@@ -28,6 +28,10 @@ const MuiInputBase: Components<Theme>["MuiInputBase"] = {
         opacity: 1,
         color: theme.vars.palette.text.disabled,
       },
+      "&:-webkit-autofill": {
+        WebkitBoxShadow: "0 0 0 100px #FFFBF6 inset !important",
+        WebkitTextFillColor: "inherit !important",
+      },
     }),
   },
 };
@@ -82,6 +86,12 @@ const MuiOutlinedInput: Components<Theme>["MuiOutlinedInput"] = {
         },
       },
     }),
+    input: {
+      "&:-webkit-autofill": {
+        WebkitBoxShadow: "0 0 0 100px #FFFBF6 inset !important",
+        WebkitTextFillColor: "inherit !important",
+      },
+    },
     notchedOutline: ({ theme }) => ({
       borderColor: varAlpha(theme.vars.palette.grey["500Channel"], 0.2),
       transition: theme.transitions.create(["border-color"], {
