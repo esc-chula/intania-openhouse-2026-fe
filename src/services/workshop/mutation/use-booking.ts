@@ -1,5 +1,10 @@
-import { useMutation, type UseMutationResult } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  type UseMutationResult,
+} from "@tanstack/react-query";
 import { ky } from "@/services/ky";
+import { workshopQueryKeys } from "../query/workshop-query";
 
 async function postBookWorkshop(workshopId: string | number): Promise<void> {
   await ky.post(`workshops/${workshopId}/book`);
@@ -14,8 +19,14 @@ export function useBookWorkshopMutation(): UseMutationResult<
   Error,
   string | number
 > {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postBookWorkshop,
+    onSuccess: (_data, workshopId) => {
+      queryClient.invalidateQueries({
+        queryKey: workshopQueryKeys.detail(workshopId),
+      });
+    },
   });
 }
 
@@ -24,7 +35,13 @@ export function useCancelWorkshopMutation(): UseMutationResult<
   Error,
   string | number
 > {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteBookWorkshop,
+    onSuccess: (_data, workshopId) => {
+      queryClient.invalidateQueries({
+        queryKey: workshopQueryKeys.detail(workshopId),
+      });
+    },
   });
 }
