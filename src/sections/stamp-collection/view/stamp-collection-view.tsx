@@ -8,6 +8,8 @@ import {
   Modal,
   Stack,
   ButtonBase,
+  Button,
+  Link,
 } from "@mui/material";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +24,7 @@ import {
   type SnackbarSeverity,
 } from "@/components/snackbar-alert";
 import StampSection from "../stamp-section";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export default function StampCollectionView() {
   const { loading: authLoading } = useAuth();
@@ -161,6 +164,46 @@ export default function StampCollectionView() {
             Stamp
           </Typography>
         </Box>
+
+        <Button
+          variant="contained"
+          component={Link}
+          href="/checkin"
+          sx={{
+            paddingX: "44px",
+            paddingY: "10px",
+            width: "100%",
+            backgroundColor: "#5B3722",
+            borderRadius: "10px",
+            filter: "drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.4))",
+            "&:hover": {
+              backgroundColor: "#472A1A",
+            },
+          }}
+          endIcon={
+            <ArrowForwardIosIcon
+              sx={{
+                fontSize: "14px !important",
+                color: "#ffffff",
+                stroke: "#ffffff",
+                strokeWidth: 1,
+                marginLeft: "4px",
+              }}
+            />
+          }
+        >
+          <Typography
+            sx={{
+              color: "#ffffff",
+              fontFamily: "var(--font-manrope)",
+              fontSize: "16px",
+              fontWeight: 700,
+            }}
+          >
+            Scan QR Code to Check-in Booth
+          </Typography>
+        </Button>
+
         <Box
           sx={{
             display: "flex",
