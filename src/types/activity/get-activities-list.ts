@@ -2,13 +2,14 @@ export type TActivityItem = {
   id: number;
   title: string;
   description: string;
-  image: string;
-  building_name: string;
-  floor: string;
-  room_name: string;
+  event_date: string;
   start_time: string;
   end_time: string;
   is_happening: boolean;
+  building_name?: string;
+  floor?: string;
+  room_name?: string;
+  link?: string;
 };
 
 export type TListActivitiesResponse = {
