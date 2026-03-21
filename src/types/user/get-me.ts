@@ -9,6 +9,7 @@ export type TGetMeResponse = {
   last_name: string;
   gender: string;
   phone_number: string;
+  google_photo_url: string;
   participant_type: string;
   transport_mode: string;
   is_from_bangkok: boolean;

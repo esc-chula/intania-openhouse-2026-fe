@@ -10,6 +10,7 @@ const kyClient = ky.create({
     beforeRequest: [
       async (request) => {
         const auth = getFirebaseAuth();
+        await auth.authStateReady();
         const user = auth.currentUser;
         if (user) {
           const token = await user.getIdToken();
