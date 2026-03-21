@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 export default function TermsAndConditionsView() {
   const router = useRouter();
-  const { user, loading, isRegistered } = useAuth();
+  const { user, loading, isRegistered, setAcceptedTerms } = useAuth();
 
   useEffect(() => {
     if (loading) return;
@@ -23,6 +23,7 @@ export default function TermsAndConditionsView() {
   }, [loading, user, isRegistered, router]);
 
   const handleAccept = () => {
+    setAcceptedTerms(true);
     router.push("/form");
   };
 

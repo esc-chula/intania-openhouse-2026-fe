@@ -5,9 +5,10 @@ import { Box } from "@mui/material";
 
 type Props = {
   children: React.ReactNode;
+  background?: boolean;
 };
 
-export default function MainLayout({ children }: Props) {
+export default function MainLayout({ children, background }: Props) {
   return (
     <Box
       sx={{
@@ -29,6 +30,11 @@ export default function MainLayout({ children }: Props) {
           margin: "0 auto",
           position: "relative",
           overflow: "hidden",
+          ...(background && {
+            background: "url('/background/bg-landing.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }),
         }}
       >
         {children}
