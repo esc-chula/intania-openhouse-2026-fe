@@ -271,6 +271,11 @@ export default function StampCollectionView() {
           onRedeem={handleRedeemClick}
           category="exhibition"
         />
+        <Box
+          component="img"
+          src="/banner/sponsor-banner-2.svg"
+          sx={{ width: "100%", mt: 2 }}
+        />
       </Box>
       <Modal
         open={dialogOpen}
