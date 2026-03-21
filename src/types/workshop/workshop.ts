@@ -14,6 +14,7 @@ export interface Workshop {
   location: string;
   total_seats: number;
   registered_count: number;
+  image: string;
 }
 
 export interface Booking {

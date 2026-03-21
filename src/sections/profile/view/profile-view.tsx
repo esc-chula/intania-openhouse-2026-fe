@@ -103,16 +103,17 @@ export default function ProfileView() {
 
     const WorkshopData: CardItem[] = bookingData?.bookings?.map((b) => ({
         id: b.workshop_id,
-        title: b.workshop.name,
-        location: b.workshop.location,
-        date: formatThaiDateFull(b.workshop.event_date),
-        time: b.workshop.start_time + " น. - " + b.workshop.end_time + " น.",
-        affiliation: b.workshop.affiliation,
-        status: "จองแล้ว",
-        registered: b.workshop.registered_count, 
-        max: b.workshop.total_seats,
+        name: b.workshop.name,
         description: "",
-        image:"",
+        image: "",
+        location: b.workshop.location,
+        affiliation: b.workshop.affiliation,
+        category: "",
+        event_date: b.workshop.event_date,
+        start_time: b.workshop.start_time,
+        end_time: b.workshop.end_time,
+        registered_count: b.workshop.registered_count,
+        total_seats: b.workshop.total_seats,
     })) || [];
 
     return (
