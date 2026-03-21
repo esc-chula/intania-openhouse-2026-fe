@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Box } from "@mui/material";
+import { BottomNav } from "@/components/bottom-nav";
 
 type Props = {
   children: React.ReactNode;
@@ -38,6 +39,7 @@ export default function MainLayout({ children, background }: Props) {
         }}
       >
         {children}
+        <BottomNav />
       </Box>
     </Box>
   );
