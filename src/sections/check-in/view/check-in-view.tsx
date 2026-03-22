@@ -3,8 +3,8 @@
 import { BackButton } from "@/components/back-button";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useState } from "react";
-import { Scanner } from "@yudiel/react-qr-scanner";
 import CheckIn from "../check-in";
+import Scanner from "../scanner";
 
 import { useCheckInMutation } from "@/services/check-in/mutation/use-check-in";
 import {
@@ -26,6 +26,32 @@ export default function CheckInView() {
   });
 
   const { mutate: doCheckIn, isPending } = useCheckInMutation();
+
+  const handleScan = (decodedText: string) => {
+    if (isPending) return;
+
+    let code: string;
+    try {
+      const parsed = JSON.parse(decodedText);
+      code = parsed.code;
+    } catch {
+      setSnackbar({ open: true, message: "QR Code ไม่ถูกต้อง", severity: "error" });
+      return;
+    }
+
+    doCheckIn(
+      { code },
+      {
+        onSuccess: (data) => {
+          setCheckInName(data.name);
+          setScanning(false);
+        },
+        onError: () => {
+          setSnackbar({ open: true, message: "Check in ไม่สำเร็จ", severity: "error" });
+        },
+      },
+    );
+  };
 
   return (
     <>
@@ -81,6 +107,7 @@ export default function CheckInView() {
               Check In
             </Typography>
           </Box>
+
           {!scanning && checkInName ? (
             <CheckIn name={checkInName} />
           ) : isPending ? (
@@ -95,50 +122,7 @@ export default function CheckInView() {
               <CircularProgress color="primary" />
             </Box>
           ) : (
-            <Box
-              sx={{
-                width: "100%",
-                borderRadius: "12px",
-                display: "flex",
-                overflow: "hidden",
-                flexGrow: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Scanner
-                sound={false}
-                onScan={(result) => {
-                  if (!result || result.length === 0 || isPending) return;
-                  const raw = result[0].rawValue;
-                  const parsed = JSON.parse(raw);
-                  const code = parsed.code;
-
-                  doCheckIn(
-                    { code },
-                    {
-                      onSuccess: (data) => {
-                        setCheckInName(data.name);
-                        setScanning(false);
-                      },
-                      onError: () => {
-                        setSnackbar({
-                          open: true,
-                          message: "Check in ไม่สำเร็จ",
-                          severity: "error",
-                        });
-                      },
-                    },
-                  );
-                }}
-                onError={(error) => {
-                  console.error(error);
-                }}
-                components={{
-                  finder: true,
-                }}
-              />
-            </Box>
+            <Scanner onScan={handleScan} />
           )}
         </Box>
       </Box>

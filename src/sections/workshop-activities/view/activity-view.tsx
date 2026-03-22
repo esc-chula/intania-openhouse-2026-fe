@@ -92,34 +92,18 @@ export default function ActivityView() {
         <BackButton />
         <Box
           sx={{
-            position: "relative",
-            width: "100%",
-            alignSelf: "center",
+            display: "flex",
+            backgroundColor: "#F8F3E8",
+            alignSelf: "stretch",
+            justifyContent: "center",
+            paddingX: 1.5,
+            paddingY: 1,
+            borderRadius: 1,
+            boxShadow:
+              "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
           }}
         >
-          <Box
-            component="img"
-            src="/banner/activity-banner.svg"
-            sx={{
-              width: "80%",
-              display: "block",
-              marginX: "auto",
-            }}
-          />
-          <Typography
-            variant="h5"
-            sx={{
-              position: "absolute",
-              top: "40%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "#5B3722",
-              textAlign: "center",
-              pointerEvents: "none",
-            }}
-          >
-            {activity.title}
-          </Typography>
+          <Typography variant="h3">{activity.title}</Typography>
         </Box>
         {activity.image && (
           <Box

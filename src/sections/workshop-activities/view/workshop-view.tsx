@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { workshopQueryKeys } from "@/services/workshop/query/workshop-query";
+import { userBookingsQueryKeys } from "@/services/user/query/user-booking-query";
 import { useAuth } from "@/contexts/auth-provider";
 import { BackButton } from "@/components/back-button";
 import {
@@ -36,7 +37,6 @@ dayjs.locale("th");
 export default function WorkshopView() {
   const params = useParams<{ id: string }>();
   const { loading: authLoading } = useAuth();
-  const [reserve, setReserve] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [pendingAction, setPendingAction] = useState<boolean | null>(null);
   const [snackbar, setSnackbar] = useState<{
@@ -56,6 +56,12 @@ export default function WorkshopView() {
     isError,
   } = useQuery(workshopQueryKeys.detailOptions(params.id, authLoading));
 
+  const { data: myBookings } = useQuery(userBookingsQueryKeys.meOptions());
+
+  const isReserved = (myBookings?.bookings ?? []).some(
+    (b) => String(b.workshop_id) === String(params.id),
+  );
+
   const handleButtonClick = (action: boolean) => {
     setPendingAction(action);
     setDialogOpen(true);
@@ -65,7 +71,6 @@ export default function WorkshopView() {
     if (pendingAction === true) {
       bookWorkshop(params.id, {
         onSuccess: () => {
-          setReserve(true);
           setDialogOpen(false);
           setSnackbar({
             open: true,
@@ -85,7 +90,6 @@ export default function WorkshopView() {
     } else if (pendingAction === false) {
       cancelWorkshop(params.id, {
         onSuccess: () => {
-          setReserve(false);
           setDialogOpen(false);
           setSnackbar({
             open: true,
@@ -168,41 +172,25 @@ export default function WorkshopView() {
           <BackButton sx={{ alignSelf: "flex-start" }} />
           <Box
             sx={{
-              position: "relative",
-              width: "100%",
-              alignSelf: "center",
+              display: "flex",
+              backgroundColor: "#F8F3E8",
+              alignSelf: "stretch",
+              justifyContent: "center",
+              paddingX: 1.5,
+              paddingY: 1,
+              borderRadius: 1,
+              boxShadow:
+                "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
             }}
           >
-            <Box
-              component="img"
-              src="/banner/activity-banner.svg"
-              sx={{
-                width: "80%",
-                display: "block",
-                marginX: "auto",
-              }}
-            />
-            <Typography
-              variant="h5"
-              sx={{
-                position: "absolute",
-                top: "40%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: color.PRIMARY_MAIN,
-                textAlign: "center",
-                pointerEvents: "none",
-              }}
-            >
-              {workshop.name}
-            </Typography>
+            <Typography variant="h3">{workshop.name}</Typography>
           </Box>
           <Stack
             sx={{
               display: "flex",
+              alignSelf: "stretch",
               backgroundColor: "#F8F3E8",
               flexDirection: "column",
-              alignSelf: "center",
               paddingX: 2,
               paddingY: 3,
               gap: 2,
@@ -255,7 +243,7 @@ export default function WorkshopView() {
               {workshop.description}
             </Typography>
           </Stack>
-          {!reserve ? (
+          {!isReserved ? (
             <Box
               component="img"
               src="/button/reserve-button.svg"
