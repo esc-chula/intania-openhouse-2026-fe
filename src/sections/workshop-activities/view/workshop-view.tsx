@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { workshopQueryKeys } from "@/services/workshop/query/workshop-query";
+import { userBookingsQueryKeys } from "@/services/user/query/user-booking-query";
 import { useAuth } from "@/contexts/auth-provider";
 import { BackButton } from "@/components/back-button";
 import {
@@ -54,6 +55,12 @@ export default function WorkshopView() {
     isLoading,
     isError,
   } = useQuery(workshopQueryKeys.detailOptions(params.id, authLoading));
+
+  const { data: myBookings } = useQuery(userBookingsQueryKeys.meOptions());
+
+  const isReserved = (myBookings?.bookings ?? []).some(
+    (b) => String(b.workshop_id) === String(params.id),
+  );
 
   const handleButtonClick = (action: boolean) => {
     setPendingAction(action);

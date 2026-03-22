@@ -133,6 +133,7 @@ export default function ProfileView() {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         padding: "25px 25px",
+        paddingBottom: "80px",
         gap: 2,
       }}
     >

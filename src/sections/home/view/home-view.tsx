@@ -65,6 +65,7 @@ export default function HomeView() {
         backgroundSize: "cover",
         gap: 1.5,
         padding: "25px 25px",
+        paddingBottom: "80px",
       }}
     >
       <Box
@@ -205,11 +206,13 @@ export default function HomeView() {
             "&::-webkit-scrollbar": { display: "none" },
           }}
         >
-          {activityData?.activities?.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} />
-          )) || (
-            <Typography sx={{ color: "#5B3722", opacity: 0.6 }}>
-              ไม่มีกิจกรรมในขณะนี้
+          {activityData?.activities && activityData.activities.length > 0 ? (
+            activityData.activities.map((activity) => (
+              <ActivityCard key={activity.id} activity={activity} />
+            ))
+          ) : (
+            <Typography sx={{ color: "#5B3722", fontFamily: "var(--font-noto-thai)", fontSize: "16px", fontWeight: 700, textAlign: "center"}}>
+              ไม่พบกิจกรรมที่กำลังจัดอยู่ตอนนี้ เลือกดูกิจกรรมอื่นๆ ได้ที่ 'ดูเพิ่มเติม'
             </Typography>
           )}
         </Box>

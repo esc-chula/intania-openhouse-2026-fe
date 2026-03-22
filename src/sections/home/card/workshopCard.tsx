@@ -9,10 +9,10 @@ export default function WorkshopCard({ workshop }: { workshop: TWorkshopItem }) 
     <Link href={`/workshop/${workshop.id}`} style={{ textDecoration: 'none' }}>
       <Box
         sx={{
-          minWidth: "160px",
+          width: "160px",
           backgroundColor: "#F8F3E8",
           borderRadius: "15px",
-          padding: "16px 20px",
+          padding: "16px 18px",
           boxShadow: "0px 4px 3px rgba(0, 0, 0, 0.3)",
           display: "flex",
           flexDirection: "column",
@@ -22,7 +22,7 @@ export default function WorkshopCard({ workshop }: { workshop: TWorkshopItem }) 
         <Typography sx={{ color: "#5B3722", fontFamily: "var(--font-noto-thai)", fontSize: "20px", fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
           {workshop.name}
         </Typography>
-        <Typography sx={{ color: "#637381", fontFamily: "var(--font-noto-thai)", fontSize: "14px", fontWeight: 500 }}>
+        <Typography sx={{ color: "#637381", fontFamily: "var(--font-noto-thai)", fontSize: "14px", fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
           {workshop.location}
         </Typography>
 

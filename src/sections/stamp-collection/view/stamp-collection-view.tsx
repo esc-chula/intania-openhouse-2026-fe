@@ -129,6 +129,7 @@ export default function StampCollectionView() {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           padding: 2.5,
+          paddingBottom: "80px",
           position: "relative",
           gap: 2,
         }}
@@ -269,6 +270,11 @@ export default function StampCollectionView() {
           isRedeeming={isRedeeming}
           onRedeem={handleRedeemClick}
           category="exhibition"
+        />
+        <Box
+          component="img"
+          src="/banner/sponsor-banner-2.svg"
+          sx={{ width: "100%", mt: 2 }}
         />
       </Box>
       <Modal

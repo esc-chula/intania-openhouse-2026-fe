@@ -5,5 +5,14 @@ export const metadata = {
 };
 
 export default function WorkshopActivitiesPage() {
-  return <WorkshopAndActivitiesView />;
+  return (
+    <>
+      <link rel="preload" href="/card/workshop-card.svg" as="image" />
+      <link rel="preload" href="/card/acty-card.svg" as="image" />
+      <link rel="preload" href="/banner/banner-no-text.svg" as="image" />
+      <link rel="preload" href="/background/bg-img-acty.svg" as="image" />
+      <link rel="preload" href="/background/bg-img-workshop.svg" as="image" />
+      <WorkshopAndActivitiesView />
+    </>
+  );
 }

@@ -4,13 +4,13 @@ export const formFirstStepSchema = z
   .object({
     first_name: z.string().min(1, "กรุณาระบุชื่อ"),
     last_name: z.string().min(1, "กรุณาระบุนามสกุล"),
-    gender: z.string().min(1, "กรุณาระบุเพศ"),
+    gender: z.string({ error: () => "กรุณาระบุเพศ" }).min(1, "กรุณาระบุเพศ"),
     phone_number: z
       .string()
       .min(1, "กรุณาระบุเบอร์โทร")
       .regex(/^\d{10}$/, "กรุณาระบุเบอร์โทรให้ถูกต้อง (10 หลัก)"),
     email: z.email({ error: "กรุณาระบุอีเมล" }),
-    participant_type: z.string().min(1, "กรุณาระบุประเภทผู้เข้าร่วม"),
+    participant_type: z.string({ error: () => "กรุณาระบุประเภทผู้เข้าร่วม" }).min(1, "กรุณาระบุประเภทผู้เข้าร่วม"),
     attendance_dates: z.array(z.string()).min(1, "กรุณาระบุวันที่เข้าร่วม"),
     interested_activities: z
       .array(z.string())
@@ -18,8 +18,8 @@ export const formFirstStepSchema = z
     discovery_channel: z
       .array(z.string())
       .min(1, "กรุณาระบุช่องทางที่รู้จักงาน"),
-    transport_mode: z.string().min(1, "กรุณาระบุวิธีการเดินทางมางาน"),
-    province: z.string().min(1, "กรุณาระบุจังหวัด"),
+    transport_mode: z.string({ error: () => "กรุณาระบุวิธีการเดินทางมางาน" }).min(1, "กรุณาระบุวิธีการเดินทางมางาน"),
+    province: z.string({ error: () => "กรุณาระบุจังหวัด" }).min(1, "กรุณาระบุจังหวัด"),
     district: z.string().optional(),
 
     // Student fields
@@ -50,7 +50,12 @@ export const formFirstStepSchema = z
     subject_taught: z.string().optional(),
 
     // Intania / Alumni fields
-    intania_generation: z.string().optional(),
+    intania_generation: z
+      .union([
+        z.literal(""),
+        z.string().regex(/^วศ\.25\d{2}$/, 'กรุณาระบุรุ่นในรูปแบบ "วศ.25XX"'),
+      ])
+      .optional(),
 
     // Outside student fields
     year_level: z.string().optional(),
