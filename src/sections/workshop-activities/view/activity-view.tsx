@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { activityQueryKeys } from "@/services/activity/query/activity-query";
 import { useAuth } from "@/contexts/auth-provider";
@@ -17,6 +17,7 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import "dayjs/locale/th";
+import { color } from "@/theme/core/colors";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -26,7 +27,6 @@ dayjs.locale("th");
 export default function ActivityView() {
   const params = useParams<{ id: string }>();
   const { loading: authLoading } = useAuth();
-  const navigate = useRouter();
 
   const {
     data: activity,
@@ -99,6 +99,7 @@ export default function ActivityView() {
             paddingX: 1.5,
             paddingY: 1,
             borderRadius: 1,
+            color: color.PRIMARY_MAIN,
             boxShadow:
               "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
           }}

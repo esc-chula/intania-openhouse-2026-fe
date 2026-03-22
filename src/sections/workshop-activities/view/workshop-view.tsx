@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { workshopQueryKeys } from "@/services/workshop/query/workshop-query";
-import { userBookingsQueryKeys } from "@/services/user/query/user-booking-query";
 import { useAuth } from "@/contexts/auth-provider";
 import { BackButton } from "@/components/back-button";
 import {
@@ -55,12 +54,6 @@ export default function WorkshopView() {
     isLoading,
     isError,
   } = useQuery(workshopQueryKeys.detailOptions(params.id, authLoading));
-
-  const { data: myBookings } = useQuery(userBookingsQueryKeys.meOptions());
-
-  const isReserved = (myBookings?.bookings ?? []).some(
-    (b) => String(b.workshop_id) === String(params.id),
-  );
 
   const handleButtonClick = (action: boolean) => {
     setPendingAction(action);
@@ -179,6 +172,7 @@ export default function WorkshopView() {
               paddingX: 1.5,
               paddingY: 1,
               borderRadius: 1,
+              color: color.PRIMARY_MAIN,
               boxShadow:
                 "0 1px 8px 0 rgba(0, 0, 0, 0.12), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.20)",
             }}
@@ -243,7 +237,7 @@ export default function WorkshopView() {
               {workshop.description}
             </Typography>
           </Stack>
-          {!isReserved ? (
+          {!workshop.is_registered ? (
             <Box
               component="img"
               src="/button/reserve-button.svg"
