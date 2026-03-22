@@ -30,7 +30,6 @@ export default function MainLayout({ children, background }: Props) {
           minHeight: "100dvh",
           margin: "0 auto",
           position: "relative",
-          overflow: "hidden",
           ...(background && {
             background: "url('/background/bg-landing.png')",
             backgroundRepeat: "no-repeat",

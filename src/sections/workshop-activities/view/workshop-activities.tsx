@@ -77,18 +77,23 @@ export default function WorkshopAndActivitiesView() {
         flexDirection: "column",
         alignItems: "center",
         height: "100dvh",
+        overflowY: "auto",
+        scrollbarWidth: "none",
+        "&::-webkit-scrollbar": { display: "none" },
         background: "url('/background/bg-workshop-activities.png')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        gap: 2,
         padding: "25px 25px",
         paddingBottom: "80px",
+        gap: 2,
       }}
     >
+      {/* Header: banner + image */}
       <Box
         sx={{
           position: "relative",
           width: "70%",
+          flexShrink: 0,
         }}
       >
         <Box
@@ -125,9 +130,24 @@ export default function WorkshopAndActivitiesView() {
         }
         sx={{
           width: "100%",
+          flexShrink: 0,
         }}
       />
 
+      {/* Toggle + Search: sticky */}
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+          width: "100%",
+          py: 1,
+        }}
+      >
       <ToggleButtonGroup
         color="primary"
         value={mode}
@@ -164,6 +184,7 @@ export default function WorkshopAndActivitiesView() {
 
       <Box
         sx={{
+          flexShrink: 0,
           display: "flex",
           alignItems: "center",
           backgroundColor: "#F5F0E6",
@@ -197,20 +218,17 @@ export default function WorkshopAndActivitiesView() {
           sx={{ color: "#6B7280", fontSize: "35px", cursor: "pointer" }}
         />
       </Box>
+      </Box>
 
+      {/* Cards */}
       <Stack
         ref={scrollRef}
         spacing={2}
         sx={{
-          flexGrow: 1,
           width: "100%",
           maxWidth: "500px",
           paddingTop: 1,
           paddingBottom: 4,
-          overflowY: "auto",
-          msOverflowStyle: "none",
-          scrollbarWidth: "none",
-          "&::-webkit-scrollbar": { display: "none" },
         }}
       >
         {currentQuery.isLoading ? (
@@ -267,15 +285,6 @@ export default function WorkshopAndActivitiesView() {
           ))
         )}
       </Stack>
-
-      <Stack
-        spacing={2}
-        sx={{
-          marginTop: "auto",
-          alignItems: "center",
-          width: "100%",
-        }}
-      ></Stack>
     </Box>
   );
 }
