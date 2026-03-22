@@ -28,7 +28,7 @@ function TravelDirectionView() {
         padding: "35px 16px",
         paddingBottom: "80px",
         gap: 3,
-        background: "url('/background/bg-landing.png')",
+        background: "url('/background/bg-landing.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
@@ -213,7 +213,7 @@ function TravelDirectionView() {
       >
         <Box
           component="img"
-          src="/assets/chula-map.png"
+          src="/assets/chula-map.webp"
           alt="แผนที่จุฬาลงกรณ์มหาวิทยาลัย"
           sx={{
             width: "100%",

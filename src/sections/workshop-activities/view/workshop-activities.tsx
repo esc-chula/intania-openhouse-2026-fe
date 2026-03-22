@@ -80,7 +80,7 @@ export default function WorkshopAndActivitiesView() {
         overflowY: "auto",
         scrollbarWidth: "none",
         "&::-webkit-scrollbar": { display: "none" },
-        background: "url('/background/bg-workshop-activities.png')",
+        background: "url('/background/bg-workshop-activities.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         padding: "25px 25px",
