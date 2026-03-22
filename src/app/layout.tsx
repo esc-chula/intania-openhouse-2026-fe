@@ -23,6 +23,17 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "Intania Openhouse 2026",
   description: "Intania Openhouse 2026",
+  openGraph: {
+    title: "Intania Openhouse 2026",
+    description: "Intania Openhouse 2026",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
