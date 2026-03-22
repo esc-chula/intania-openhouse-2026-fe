@@ -1,8 +1,26 @@
+"use client";
+
 import { Box, Stack, Typography } from "@mui/material";
+import { useAuth } from "@/contexts/auth-provider";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { LandingLoginButton } from "../landing-login-button";
 import { LandingRegisterButton } from "../landing-register-button";
 
 function LandingView() {
+  const { user, loading, isRegistered } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && user && isRegistered) {
+      router.replace("/home");
+    }
+  }, [user, loading, isRegistered, router]);
+
+  if (loading || (user && isRegistered)) {
+    return null;
+  }
+
   return (
     <Box
       sx={{
