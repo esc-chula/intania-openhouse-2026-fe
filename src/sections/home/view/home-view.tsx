@@ -17,7 +17,10 @@ const QUICK_INFO = [
   { label: "ข้อมูลภาควิชาและชมรม", href: "/quick-info/department-and-club" },
   { label: "แผนผังคณะ", href: "/quick-info/map" },
   { label: "ข้อมูลการเดินทาง", href: "/quick-info/travel-direction" },
-  { label: "Lost & Found", href: "/quick-info/lost-and-found" },
+  {
+    label: "Lost & Found",
+    href: "https://padlet.com/supplyengopenhouse/padlet-3pyhx91j54d958v",
+  },
 ];
 
 export default function HomeView() {
@@ -211,8 +214,17 @@ export default function HomeView() {
               <ActivityCard key={activity.id} activity={activity} />
             ))
           ) : (
-            <Typography sx={{ color: "#5B3722", fontFamily: "var(--font-noto-thai)", fontSize: "16px", fontWeight: 700, textAlign: "center"}}>
-              ไม่พบกิจกรรมที่กำลังจัดอยู่ตอนนี้ เลือกดูกิจกรรมอื่นๆ ได้ที่ 'ดูเพิ่มเติม'
+            <Typography
+              sx={{
+                color: "#5B3722",
+                fontFamily: "var(--font-noto-thai)",
+                fontSize: "16px",
+                fontWeight: 700,
+                textAlign: "center",
+              }}
+            >
+              ไม่พบกิจกรรมที่กำลังจัดอยู่ตอนนี้ เลือกดูกิจกรรมอื่นๆ ได้ที่
+              &apos;ดูเพิ่มเติม&apos;
             </Typography>
           )}
         </Box>
@@ -378,6 +390,7 @@ export default function HomeView() {
               variant="contained"
               component={Link}
               href={info.href}
+              target={info.label === "Lost & Found" ? "_blank" : "_self"}
               sx={{
                 width: "100%",
                 backgroundColor: "#5B3722",
