@@ -10,6 +10,6 @@ export function useRedeemStampsMutation(): UseMutationResult<
 > {
   return useMutation({
     mutationFn: (category: StampCategory) =>
-      ky.post(`redemptions?category=${category}`).json(),
+      ky.post(`stamps/redemptions?category=${category}`).json(),
   });
 }
