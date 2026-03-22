@@ -76,7 +76,7 @@ export function borderGradient(props?: BorderGradientProps): CSSObject {
 
 /**
  * Usage:
- * ...bgGradient({ color: `to right, ${theme.vars.palette.grey[900]} 25%, ${varAlpha(theme.vars.palette.primary.darkerChannel, 0.88)}`, imgUrl: '/assets/background/overlay.png' }),
+ * ...bgGradient({ color: `to right, ${theme.vars.palette.grey[900]} 25%, ${varAlpha(theme.vars.palette.primary.darkerChannel, 0.88)}`, imgUrl: '/assets/background/overlay.webp' }),
  */
 export type BgGradientProps = {
   color: string;
@@ -97,7 +97,7 @@ export function bgGradient({ color, imgUrl }: BgGradientProps): CSSObject {
 
 /**
  * Usage:
- * ...bgBlur({ color: `varAlpha(theme.vars.palette.background.paperChannel, 0.8)`, imgUrl: '/assets/background/overlay.png', blur: 6 }),
+ * ...bgBlur({ color: `varAlpha(theme.vars.palette.background.paperChannel, 0.8)`, imgUrl: '/assets/background/overlay.webp', blur: 6 }),
  */
 export type BgBlurProps = {
   color: string;
@@ -219,7 +219,7 @@ export function paper({ theme, color, dropdown }: PaperProps) {
       color: color ?? varAlpha(theme.vars.palette.background.paperChannel, 0.9),
       blur: 20,
     }),
-    backgroundImage: `url(/assets/cyan-blur.png), url(/assets/red-blur.png)`,
+    backgroundImage: `url(/assets/cyan-blur.webp), url(/assets/red-blur.webp)`,
     backgroundRepeat: "no-repeat, no-repeat",
     backgroundPosition: "top right, left bottom",
     backgroundSize: "50%, 50%",

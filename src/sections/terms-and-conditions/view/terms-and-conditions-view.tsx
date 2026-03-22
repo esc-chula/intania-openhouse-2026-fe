@@ -40,7 +40,7 @@ export default function TermsAndConditionsView() {
         flexDirection: "column",
         alignItems: "center",
         height: "100dvh",
-        background: "url('/background/bg-terms-and-conditions.png')",
+        background: "url('/background/bg-terms-and-conditions.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         gap: 4,

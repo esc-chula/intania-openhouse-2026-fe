@@ -63,7 +63,7 @@ export default function HomeView() {
         flexDirection: "column",
         alignItems: "center",
         minHeight: "100dvh",
-        background: "url('/background/bg-landing.png')",
+        background: "url('/background/bg-landing.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         gap: 1.5,
@@ -73,7 +73,7 @@ export default function HomeView() {
     >
       <Box
         component="img"
-        src="/logo/logo.svg"
+        src="/logo/logo.webp"
         sx={{ width: "65%", display: "block" }}
       />
 

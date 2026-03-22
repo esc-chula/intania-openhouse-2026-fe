@@ -25,7 +25,7 @@ function DepartmentAndClubView() {
         padding: "35px 23px ",
         paddingBottom: "80px",
         gap: 3,
-        background: "url('/background/bg-landing.png')",
+        background: "url('/background/bg-landing.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}

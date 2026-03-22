@@ -102,7 +102,7 @@ export default function StampCollectionView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -125,7 +125,7 @@ export default function StampCollectionView() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           padding: 2.5,

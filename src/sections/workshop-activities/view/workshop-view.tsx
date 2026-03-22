@@ -114,7 +114,7 @@ export default function WorkshopView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -131,7 +131,7 @@ export default function WorkshopView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -147,7 +147,7 @@ export default function WorkshopView() {
           display: "flex",
           flexDirection: "column",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
@@ -196,7 +196,7 @@ export default function WorkshopView() {
           >
             <Box
               component="img"
-              src={`/assets${workshop.image}.jpg`}
+              src={`/assets${workshop.image}.webp`}
               sx={{
                 width: "75%",
                 objectFit: "cover",

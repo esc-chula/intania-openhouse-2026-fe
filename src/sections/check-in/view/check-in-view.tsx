@@ -60,7 +60,7 @@ export default function CheckInView() {
           display: "flex",
           flexDirection: "column",
           height: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}

@@ -156,7 +156,7 @@ function FormView() {
         height: "100dvh",
         padding: 4,
         gap: 1,
-        background: "url('/background/bg-register.png')",
+        background: "url('/background/bg-register.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
