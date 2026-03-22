@@ -55,7 +55,7 @@ export default function ProfileView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -72,7 +72,7 @@ export default function ProfileView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -89,7 +89,7 @@ export default function ProfileView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -129,7 +129,7 @@ export default function ProfileView() {
         flexDirection: "column",
         alignItems: "center",
         minHeight: "100dvh",
-        background: "url('/background/bg-landing.png')",
+        background: "url('/background/bg-landing.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         padding: "25px 25px",

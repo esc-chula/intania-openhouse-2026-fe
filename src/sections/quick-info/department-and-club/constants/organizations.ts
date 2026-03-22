@@ -177,7 +177,7 @@ export const INTERNATIONAL_DEPARTMENTS: Organization[] = [
     org_type: "Department",
     name_th: "วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์",
     name_en: "Robotics and Artificial Intelligence",
-    logo: "/icon/information/ic-robotics-ai.png",
+    logo: "/icon/information/ic-robotics-ai.webp",
     city: "Intellia",
     org_description:
       "วิศวกรรมหุ่นยนต์และปัญญาประดิษฐ์เป็นสาขาที่ผสานความรู้เครื่องกล, ไฟฟ้า, คอมพิวเตอร์ เพื่อสร้างและออกแบบหุ่นยนต์ สาขานี้ครอบคลุมการออกแบบ และการผลิตเครื่องจักร ทำให้ระบบสามารถทำงานอัตโนมัติและมีความแม่นยำสูง นอกจากนี้ยังมีการใช้ AI เพื่อเพิ่มประสิทธิภาพของระบบกลไกและทำให้เครื่องจักรมีความฉลาด สามารถทำงานที่ซับซ้อนได้มากขึ้น",

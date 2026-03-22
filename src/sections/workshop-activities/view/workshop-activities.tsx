@@ -77,7 +77,7 @@ export default function WorkshopAndActivitiesView() {
         flexDirection: "column",
         alignItems: "center",
         height: "100dvh",
-        background: "url('/background/bg-workshop-activities.png')",
+        background: "url('/background/bg-workshop-activities.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         gap: 2,

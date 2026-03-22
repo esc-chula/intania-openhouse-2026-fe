@@ -32,7 +32,7 @@ export default function MainLayout({ children, background }: Props) {
           position: "relative",
           overflow: "hidden",
           ...(background && {
-            background: "url('/background/bg-landing.png')",
+            background: "url('/background/bg-landing.webp')",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }),

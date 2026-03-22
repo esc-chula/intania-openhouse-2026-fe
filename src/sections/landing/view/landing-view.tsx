@@ -9,7 +9,7 @@ function LandingView() {
         display: "flex",
         flexDirection: "column",
         minHeight: "100dvh",
-        background: "url('/background/bg-landing.png')",
+        background: "url('/background/bg-landing.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
@@ -34,7 +34,7 @@ function LandingView() {
 
         <Box
           component="img"
-          src="/logo/main-logo.svg"
+          src="/logo/main-logo.webp"
           sx={{
             width: "100%",
             marginTop: "-7dvh",

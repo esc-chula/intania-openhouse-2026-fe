@@ -42,7 +42,7 @@ export default function ActivityView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -59,7 +59,7 @@ export default function ActivityView() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100dvh",
-          background: "url('/background/bg-landing.png')",
+          background: "url('/background/bg-landing.webp')",
           backgroundSize: "cover",
         }}
       >
@@ -74,7 +74,7 @@ export default function ActivityView() {
         display: "flex",
         flexDirection: "column",
         height: "100dvh",
-        background: "url('/background/bg-landing.png')",
+        background: "url('/background/bg-landing.webp')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
@@ -139,7 +139,7 @@ export default function ActivityView() {
             >
               <Box
                 component="img"
-                src={`/assets${activity.image}.jpg`}
+                src={`/assets${activity.image}.webp`}
                 sx={{
                   width: "100%",
                   height: "90%",
