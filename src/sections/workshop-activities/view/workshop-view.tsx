@@ -71,11 +71,48 @@ export default function WorkshopView() {
             severity: "success",
           });
         },
-        onError: () => {
+        onError: async (error: unknown) => {
+          let errorMessage = "จองเวิร์คช็อปไม่สำเร็จ";
+
+          if (
+            typeof error === "object" &&
+            error !== null &&
+            "response" in error
+          ) {
+            const response = error.response as Response;
+            try {
+              const errData = await response.json();
+              if (
+                response.status === 403 ||
+                errData.detail === "participant type is not allowed" ||
+                errData.title === "participant type is not allowed"
+              ) {
+                errorMessage =
+                  "จองเวิร์คช็อปไม่สำเร็จ สงวนสิทธิ์เฉพาะนักเรียน ผู้ที่สนใจศึกษาต่อ และนิสิตปัจจุบันเท่านั้น";
+              } else if (
+                response.status === 400 &&
+                errData.detail === "workshop is full"
+              ) {
+                errorMessage = "เวิร์คช็อปเต็มแล้ว";
+              } else if (
+                response.status === 400 &&
+                errData.detail === "time conflict with existing booking"
+              ) {
+                errorMessage =
+                  "เวลาของเวิร์คช็อปนี้ทับซ้อนกับเวิร์คช็อปอื่นที่คุณจองไว้";
+              } else if (
+                response.status === 400 &&
+                errData.detail === "already booked this workshop"
+              ) {
+                errorMessage = "คุณได้ทำการจองเวิร์คช็อปนี้ไปแล้ว";
+              }
+            } catch {}
+          }
+
           setDialogOpen(false);
           setSnackbar({
             open: true,
-            message: "จองเวิร์คช็อปไม่สำเร็จ",
+            message: errorMessage,
             severity: "error",
           });
         },

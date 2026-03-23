@@ -35,7 +35,11 @@ export default function CheckInView() {
       const parsed = JSON.parse(decodedText);
       code = parsed.code;
     } catch {
-      setSnackbar({ open: true, message: "QR Code ไม่ถูกต้อง", severity: "error" });
+      setSnackbar({
+        open: true,
+        message: "QR Code ไม่ถูกต้อง",
+        severity: "error",
+      });
       return;
     }
 
@@ -46,8 +50,30 @@ export default function CheckInView() {
           setCheckInName(data.name);
           setScanning(false);
         },
-        onError: () => {
-          setSnackbar({ open: true, message: "Check in ไม่สำเร็จ", severity: "error" });
+        onError: async (error: unknown) => {
+          let errorMessage = "จองเวิร์คช็อปไม่สำเร็จ";
+
+          if (
+            typeof error === "object" &&
+            error !== null &&
+            "response" in error
+          ) {
+            const response = error.response as Response;
+            try {
+              const errData = await response.json();
+              if (
+                response.status === 400 &&
+                errData.detail === "already checked in"
+              ) {
+                errorMessage = "คุณได้เช็คอินที่บูธนี้เรียบร้อยแล้ว";
+              }
+            } catch {}
+          }
+          setSnackbar({
+            open: true,
+            message: errorMessage,
+            severity: "error",
+          });
         },
       },
     );
