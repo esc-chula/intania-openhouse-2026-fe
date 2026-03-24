@@ -19,7 +19,6 @@ export default function Scanner({ onScan }: Props) {
   };
 
   const handleError = useCallback((err: unknown) => {
-    console.error(err);
     if (err instanceof Error) {
       if (err.name === "NotAllowedError") {
         setErrorMsg("กรุณาอนุญาตการเข้าถึงกล้อง (Please allow camera access)");
