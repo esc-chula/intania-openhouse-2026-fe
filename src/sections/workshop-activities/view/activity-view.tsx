@@ -203,7 +203,7 @@ export default function ActivityView() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            ลงทะเบียน
+            {activity.id === 1 ? <>รับชมถ่ายทอดสด</> : <>ลงทะเบียน</>}
           </Button>
         )}
       </Box>

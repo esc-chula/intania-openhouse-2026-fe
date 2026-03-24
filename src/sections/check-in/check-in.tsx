@@ -55,7 +55,7 @@ export default function CheckIn({ name }: { name: string }) {
         </Alert>
       </Box>
       <ButtonBase
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/home")}
         sx={{
           paddingX: "22px",
           paddingY: 1,
