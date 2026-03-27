@@ -51,7 +51,7 @@ export default function CheckInView() {
           setScanning(false);
         },
         onError: async (error: unknown) => {
-          let errorMessage = "จองเวิร์คช็อปไม่สำเร็จ";
+          let errorMessage = "Check in ไม่สำเร็จ";
 
           if (
             typeof error === "object" &&

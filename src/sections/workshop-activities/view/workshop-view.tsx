@@ -27,6 +27,7 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import "dayjs/locale/th";
+import { WorkshopButton } from "../workshop-button";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -274,33 +275,11 @@ export default function WorkshopView() {
               {workshop.description}
             </Typography>
           </Stack>
-          {!workshop.is_registered ? (
-            <Box
-              component="img"
-              src="/button/reserve-button.svg"
-              onClick={() => handleButtonClick(true)}
-              sx={{
-                width: {
-                  xs: "50%",
-                  sm: "60%",
-                  alignSelf: "center",
-                },
-              }}
-            />
-          ) : (
-            <Box
-              component="img"
-              src="/button/cancel-button.svg"
-              onClick={() => handleButtonClick(false)}
-              sx={{
-                width: {
-                  xs: "50%",
-                  sm: "60%",
-                  alignSelf: "center",
-                },
-              }}
-            />
-          )}
+          <WorkshopButton
+            isRegistered={workshop.is_registered}
+            status={workshop.status}
+            onAction={handleButtonClick}
+          />
         </Box>
         <Modal
           open={dialogOpen}

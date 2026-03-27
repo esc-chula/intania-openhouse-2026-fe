@@ -1,6 +1,6 @@
 export type Category = "Department" | "Club";
 
-export type Status = "Confirmed" | "Cancelled" | "Attended" | "Absent";
+export type Status = "Confirmed" | "Attended" | "Absent";
 
 export interface Workshop {
   id: number;
@@ -16,6 +16,7 @@ export interface Workshop {
   registered_count: number;
   image: string;
   is_registered: boolean;
+  status?: Status;
 }
 
 export interface Booking {
