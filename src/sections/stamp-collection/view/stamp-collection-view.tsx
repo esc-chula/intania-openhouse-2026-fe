@@ -201,7 +201,7 @@ export default function StampCollectionView() {
               fontWeight: 700,
             }}
           >
-            Scan QR Code to Check-in Booth
+            Scan QR Code to Check-in Booth or Workshop
           </Typography>
         </Button>
 

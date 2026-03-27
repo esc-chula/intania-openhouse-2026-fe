@@ -142,7 +142,7 @@ export default function HomeView() {
             fontWeight: 700,
           }}
         >
-          Scan QR Code to Check-in Booth
+          Scan QR Code to Check-in Booth or Workshop
         </Typography>
       </Button>
 
