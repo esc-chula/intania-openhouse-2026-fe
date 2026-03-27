@@ -68,12 +68,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return unsub;
   }, [auth, checkRegistration]);
 
+  const redirectToExternalBrowser = () => {
+    const ua = navigator.userAgent;
+    const url = window.location.href;
+    const separator = url.includes("?") ? "&" : "?";
+
+    if (/Line/i.test(ua)) {
+      window.location.href = `${url}${separator}openExternalBrowser=1`;
+    } else if (/Android/i.test(ua)) {
+      const stripped = url.replace(/^https?:\/\//, "");
+      window.location.href = `intent://${stripped}#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end`;
+    } else {
+      const chromeUrl = `googlechrome://${url.replace(/^https?:\/\//, "")}`;
+      window.location.href = chromeUrl;
+      setTimeout(() => {
+        window.location.href = url;
+      }, 500);
+    }
+  };
+
   const api = useMemo<AuthCtx>(
     () => ({
       user,
       loading,
       isRegistered,
       signInGoogle: async (returnUrl?: string) => {
+        if (
+          typeof navigator !== "undefined" &&
+          /Line|FBAN|FBAV|FB_IAB|FBIOS|MessengerForiOS|Instagram|Twitter|KAKAOTALK/i.test(
+            navigator.userAgent,
+          )
+        ) {
+          redirectToExternalBrowser();
+          return;
+        }
         try {
           await signInWithPopup(auth, googleProvider);
 
