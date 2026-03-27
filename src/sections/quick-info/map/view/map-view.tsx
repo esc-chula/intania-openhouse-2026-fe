@@ -51,24 +51,12 @@ export default function MapView() {
         </Stack>
       </Paper>
 
-      <Paper
-        elevation={3}
-        sx={{
-          backgroundColor: CARD_BG,
-          padding: "48px 24px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography variant="h4" color="primary" fontWeight={700}>
-          Coming Soon!
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          แผนผังจะมาเร็วๆนี้!
-        </Typography>
-      </Paper>
+      <Box
+        component="img"
+        src="/assets/faculty-map.png"
+        alt="แผนผังคณะวิศวกรรมศาสตร์"
+        sx={{ width: "100%", borderRadius: 1 }}
+      />
 
       <Box
         component="img"
